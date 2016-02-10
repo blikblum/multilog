@@ -1,22 +1,22 @@
 { This file was automatically created by Lazarus. Do not edit!
-This source is only used to compile and install the package.
+  This source is only used to compile and install the package.
  }
 
-unit multiloglaz; 
+unit multiloglaz;
 
 interface
 
 uses
-  MultiLog, registermultilog, logtreeview, sharedlogger, multiloglcl, 
-    filechannel, ipcchannel, sharedloggerlcl, LazarusPackageIntf; 
+  MultiLog, registermultilog, logtreeview, sharedlogger, multiloglcl, filechannel, ipcchannel, 
+  sharedloggerlcl, MultiLogLCLHelpers, LazarusPackageIntf;
 
 implementation
 
-procedure Register; 
+procedure Register;
 begin
-  RegisterUnit('registermultilog', @registermultilog.Register); 
-end; 
+  RegisterUnit('registermultilog', @registermultilog.Register);
+end;
 
 initialization
-  RegisterPackage('multiloglaz', @Register); 
+  RegisterPackage('multiloglaz', @Register);
 end.

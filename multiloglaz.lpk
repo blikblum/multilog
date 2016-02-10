@@ -1,7 +1,8 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
     <Name Value="multiloglaz"/>
+    <Type Value="RunAndDesignTime"/>
     <AddToProjectUsesSection Value="True"/>
     <Author Value="Luiz Américo Pereira Câmara"/>
     <CompilerOptions>
@@ -14,16 +15,13 @@
           <UseAnsiStrings Value="False"/>
         </SyntaxOptions>
       </Parsing>
-      <Other>
-        <CompilerPath Value="$(CompPath)"/>
-      </Other>
     </CompilerOptions>
     <Description Value="Multilog provides an easy way to use log messages in a fpc/Lazarus application
 "/>
     <License Value="Modified LGPL
 "/>
     <Version Minor="6"/>
-    <Files Count="8">
+    <Files Count="7">
       <Item1>
         <Filename Value="multilog.pas"/>
         <UnitName Value="MultiLog"/>
@@ -38,27 +36,22 @@
         <UnitName Value="logtreeview"/>
       </Item3>
       <Item4>
-        <Filename Value="sharedlogger.pas"/>
-        <UnitName Value="sharedlogger"/>
-      </Item4>
-      <Item5>
         <Filename Value="multiloglcl.pas"/>
         <UnitName Value="multiloglcl"/>
-      </Item5>
-      <Item6>
+      </Item4>
+      <Item5>
         <Filename Value="filechannel.pas"/>
         <UnitName Value="filechannel"/>
-      </Item6>
-      <Item7>
+      </Item5>
+      <Item6>
         <Filename Value="ipcchannel.pas"/>
         <UnitName Value="ipcchannel"/>
+      </Item6>
+      <Item7>
+        <Filename Value="multiloglclhelpers.pas"/>
+        <UnitName Value="multiloglclhelpers"/>
       </Item7>
-      <Item8>
-        <Filename Value="sharedloggerlcl.pas"/>
-        <UnitName Value="sharedloggerlcl"/>
-      </Item8>
     </Files>
-    <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="1">
       <Item1>
         <PackageName Value="LCL"/>
