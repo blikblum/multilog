@@ -13,6 +13,8 @@ uses
   {$ifdef DEBUG_MULTILOGVIEWER}, filechannel{$endif}
   {$ifdef LCLWin32}, UniqueInstanceRaw{$endif};
 
+{$R *.res}
+
 begin
   {$ifdef LCLWin32}
   if InstanceRunning('multilogviewer') then
