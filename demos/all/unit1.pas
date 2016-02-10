@@ -5,8 +5,8 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ComCtrls, sharedloggerlcl,
-  Buttons, logtreeview, ExtCtrls, StdCtrls, Spin, ipcchannel, multilog;
+  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ComCtrls,
+  Buttons, logtreeview, ExtCtrls, StdCtrls, Spin, ipcchannel, MultiLog, MultiLogLCLHelpers;
 
 type
 
@@ -104,6 +104,8 @@ var
   Form1: TForm1; 
 
 implementation
+
+{$R *.lfm}
 
 { TForm1 }
 
@@ -343,8 +345,6 @@ begin
   LogTreeView1.TimeFormat := TimeFormatEdit.Text;
 end;
 
-initialization
-  {$I unit1.lrs}
 
 end.
 
