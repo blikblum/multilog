@@ -234,7 +234,7 @@ type
     procedure ExitMethod(const AMethodName: String); overload; {$ifdef fpc}inline;{$endif}
     procedure ExitMethod(Sender: TObject; const AMethodName: String); overload; {$ifdef fpc}inline;{$endif}
     procedure ExitMethod(Classes: TDebugClasses; const AMethodName: String); overload; {$ifdef fpc}inline;{$endif}
-    procedure ExitMethod(Classes: TDebugClasses; Sender: TObject; const AMethodName: String);overload;
+    procedure ExitMethod({%H-}Classes: TDebugClasses; Sender: TObject; const AMethodName: String);overload;
     procedure Watch(const AText, AValue: String); overload; {$ifdef fpc}inline;{$endif}
     procedure Watch(Classes: TDebugClasses; const AText,AValue: String);overload;
     procedure Watch(const AText: String; AValue: Integer); overload; {$ifdef fpc}inline;{$endif}
@@ -277,7 +277,7 @@ begin
     if Digits = 3 then
     begin
       Digits:=0;
-      Result:=ThousandSeparator+Result;
+      Result:=DefaultFormatSettings.ThousandSeparator+Result;
     end;
     Result:=TempStr[i]+Result;
     Inc(Digits);
@@ -367,8 +367,7 @@ begin
   end;
 end;
 
-procedure TLogger.SendStream(AMsgType: Integer; const AText: String;
-  AStream: TStream);
+procedure TLogger.SendStream(AMsgType: Integer; const AText: String; AStream: TStream);
 var
   Msg: TLogMessage;
 begin
@@ -385,8 +384,7 @@ begin
   AStream.Free;
 end;
 
-procedure TLogger.SendBuffer(AMsgType: Integer; const AText: String;
-  var Buffer; Count: LongWord);
+procedure TLogger.SendBuffer(AMsgType: Integer; const AText: String; var Buffer; Count: LongWord);
 var
   AStream: TStream;
 begin
@@ -491,8 +489,7 @@ begin
   Send(DefaultClasses,AText,Args);
 end;
 
-procedure TLogger.Send(Classes: TDebugClasses; const AText: String;
-  Args: array of const);
+procedure TLogger.Send(Classes: TDebugClasses; const AText: String; Args: array of const);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltInfo, Format(AText,Args),nil);
@@ -526,8 +523,7 @@ begin
   Send(DefaultClasses,AText,AValue);
 end;
 
-procedure TLogger.Send(Classes: TDebugClasses; const AText: String;
-  AValue: Cardinal);
+procedure TLogger.Send(Classes: TDebugClasses; const AText: String; AValue: Cardinal);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltValue,AText+' = '+IntToStr(AValue),nil);
@@ -539,8 +535,7 @@ begin
   Send(DefaultClasses,AText,AValue);
 end;
 
-procedure TLogger.Send(Classes: TDebugClasses; const AText: String; AValue: Double
-  );
+procedure TLogger.Send(Classes: TDebugClasses; const AText: String; AValue: Double);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltValue,AText+' = '+FloatToStr(AValue),nil);
@@ -551,8 +546,7 @@ begin
   Send(DefaultClasses,AText,AValue);
 end;
 
-procedure TLogger.Send(Classes: TDebugClasses; const AText: String; AValue: Int64
-  );
+procedure TLogger.Send(Classes: TDebugClasses; const AText: String; AValue: Int64);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltValue,AText+' = '+IntToStr(AValue),nil);
@@ -563,8 +557,7 @@ begin
   Send(DefaultClasses,AText,AValue);
 end;
 
-procedure TLogger.Send(Classes: TDebugClasses; const AText: String; AValue: QWord
-  );
+procedure TLogger.Send(Classes: TDebugClasses; const AText: String; AValue: QWord);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltValue,AText+' = '+IntToStr(AValue),nil);
@@ -598,8 +591,7 @@ begin
   Send(DefaultClasses,AText,APoint);
 end;
 
-procedure TLogger.Send(Classes: TDebugClasses; const AText: String; const APoint: TPoint
-  );
+procedure TLogger.Send(Classes: TDebugClasses; const AText: String; const APoint: TPoint);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltValue,AText+' = '+PointToStr(APoint),nil);
@@ -610,8 +602,7 @@ begin
   Send(DefaultClasses,AText,AStrList);
 end;
 
-procedure TLogger.Send(Classes: TDebugClasses; const AText: String;
-  AStrList: TStrings);
+procedure TLogger.Send(Classes: TDebugClasses; const AText: String; AStrList: TStrings);
 var
   S:String;
 begin
@@ -635,8 +626,7 @@ begin
     Result := Result + '(' + TComponent(Sender).Name + ')';
 end;
 
-procedure TLogger.Send(Classes: TDebugClasses; const AText: String;
-  AObject: TObject);
+procedure TLogger.Send(Classes: TDebugClasses; const AText: String; AObject: TObject);
 var
   TempStr: String;
   AStream: TStream;
@@ -664,8 +654,7 @@ begin
   SendPointer(DefaultClasses,AText,APointer);
 end;
 
-procedure TLogger.SendPointer(Classes: TDebugClasses; const AText: String;
-  APointer: Pointer);
+procedure TLogger.SendPointer(Classes: TDebugClasses; const AText: String; APointer: Pointer);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltValue, AText + ' = $' + HexStr(APointer), nil);
@@ -692,8 +681,7 @@ begin
   SendException(DefaultClasses,AText,AException);
 end;
 
-procedure TLogger.SendException(Classes: TDebugClasses; const AText: String;
-  AException: Exception);
+procedure TLogger.SendException(Classes: TDebugClasses; const AText: String; AException: Exception);
 {$ifdef fpc}
 var
   i: Integer;
@@ -756,8 +744,7 @@ begin
   SendIf(DefaultClasses,AText,Expression,True);
 end;
 
-procedure TLogger.SendIf(Classes: TDebugClasses; const AText: String; Expression: Boolean
-  );
+procedure TLogger.SendIf(Classes: TDebugClasses; const AText: String; Expression: Boolean);
 begin
   SendIf(Classes,AText,Expression,True);
 end;
@@ -767,8 +754,7 @@ begin
   SendIf(DefaultClasses,AText,Expression,IsTrue);
 end;
 
-procedure TLogger.SendIf(Classes: TDebugClasses; const AText: String; Expression,
-  IsTrue: Boolean);
+procedure TLogger.SendIf(Classes: TDebugClasses; const AText: String; Expression, IsTrue: Boolean);
 begin
   if (Classes * ActiveClasses = []) or (Expression <> IsTrue) then Exit;
   SendStream(ltConditional,AText,nil);
@@ -913,8 +899,7 @@ begin
   DecCounter(DefaultClasses,CounterName);
 end;
 
-procedure TLogger.DecCounter(Classes: TDebugClasses; const CounterName: String
-  );
+procedure TLogger.DecCounter(Classes: TDebugClasses; const CounterName: String);
 var
   i: Integer;
   j: PtrInt;
@@ -939,8 +924,7 @@ begin
   ResetCounter(DefaultClasses,CounterName);
 end;
 
-procedure TLogger.ResetCounter(Classes: TDebugClasses; const CounterName: String
-  );
+procedure TLogger.ResetCounter(Classes: TDebugClasses; const CounterName: String);
 var
   i: Integer;
 begin
@@ -1069,8 +1053,7 @@ begin
   Watch(DefaultClasses,AText,AValue);
 end;
 
-procedure TLogger.Watch(Classes: TDebugClasses; const AText: String;
-  AValue: Integer);
+procedure TLogger.Watch(Classes: TDebugClasses; const AText: String; AValue: Integer);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltWatch,AText+'='+IntToStr(AValue),nil);
@@ -1082,8 +1065,7 @@ begin
   Watch(DefaultClasses,AText,AValue);
 end;
 
-procedure TLogger.Watch(Classes: TDebugClasses; const AText: String;
-  AValue: Cardinal);
+procedure TLogger.Watch(Classes: TDebugClasses; const AText: String; AValue: Cardinal);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltWatch,AText+'='+IntToStr(AValue),nil);
@@ -1095,8 +1077,7 @@ begin
   Watch(DefaultClasses,AText,AValue);
 end;
 
-procedure TLogger.Watch(Classes: TDebugClasses; const AText: String; AValue: Double
-  );
+procedure TLogger.Watch(Classes: TDebugClasses; const AText: String; AValue: Double);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltWatch,AText+'='+FloatToStr(AValue),nil);
@@ -1107,8 +1088,7 @@ begin
   Watch(DefaultClasses,AText,AValue);
 end;
 
-procedure TLogger.Watch(Classes: TDebugClasses; const AText: String;
-  AValue: Boolean);
+procedure TLogger.Watch(Classes: TDebugClasses; const AText: String; AValue: Boolean);
 begin
   if Classes * ActiveClasses = [] then Exit;
   SendStream(ltWatch,AText+'='+BoolToStr(AValue),nil);
