@@ -135,8 +135,10 @@ type
     FCounterList: TStringList;
     FOnCustomData: TCustomDataNotify;
     FLastActiveClasses: TDebugClasses;
+    class var FDefaultChannels: TChannelList;
     procedure GetCallStack(AStream:TStream);
     procedure SetEnabled(AValue: Boolean);
+    class function GetDefaultChannels: TChannelList; static;
     function GetEnabled: Boolean;
     procedure SetMaxStackCount(const AValue: Integer);
   protected
@@ -245,6 +247,7 @@ type
     procedure Watch(Classes: TDebugClasses; const AText: String; AValue: Double);overload;
     procedure Watch(const AText: String; AValue: Boolean); overload; {$ifdef fpc}inline;{$endif}
     procedure Watch(Classes: TDebugClasses; const AText: String; AValue: Boolean);overload;
+    class property DefaultChannels: TChannelList read GetDefaultChannels;
     property Enabled: Boolean read GetEnabled write SetEnabled;
     property Channels: TChannelList read FChannels;
     property LogStack: TStrings read FLogStack;
@@ -339,27 +342,46 @@ begin
   end;
 end;
 
+class function TLogger.GetDefaultChannels: TChannelList;
+begin
+  if FDefaultChannels = nil then
+    FDefaultChannels := TChannelList.Create;
+  Result := FDefaultChannels;
+end;
+
 function TLogger.GetEnabled: Boolean;
 begin
   Result:=ActiveClasses <> [];
 end;
 
+procedure DispatchLogMessage(Channels: TChannelList; const Msg: TLogMessage);
+var
+  i: Integer;
+  Channel: TLogChannel;
+begin
+  for i := 0 to Channels.Count - 1 do
+  begin
+    Channel := Channels[i];
+    if Channel.Active then
+      Channel.Deliver(Msg);
+  end;
+end;
+
 procedure TLogger.SendStream(AMsgType: Integer; const AText: String;
   AStream: TStream);
 var
-  MsgRec: TLogMessage;
-  i:Integer;
+  Msg: TLogMessage;
 begin
-  with MsgRec do
+  with Msg do
   begin
-    MsgType:=AMsgType;
-    MsgTime:=Now;
-    MsgText:=AText;
-    Data:=AStream;
+    MsgType := AMsgType;
+    MsgTime := Now;
+    MsgText := AText;
+    Data := AStream;
   end;
-  for i:= 0 to Channels.Count - 1 do
-    if Channels[i].Active then
-      Channels[i].Deliver(MsgRec);
+  if FDefaultChannels <> nil then
+    DispatchLogMessage(FDefaultChannels, Msg);
+  DispatchLogMessage(Channels, Msg);
   AStream.Free;
 end;
 
@@ -421,13 +443,24 @@ begin
   Result:=FLogStack.IndexOf(UpperCase(AMethodName)) <> -1;
 end;
 
-procedure TLogger.Clear;
+procedure ClearChannels(Channels: TChannelList);
 var
   i: Integer;
+  Channel: TLogChannel;
 begin
-  for i:= 0 to Channels.Count - 1 do
-    if Channels[i].Active then
-      Channels[i].Clear;
+  for i := 0 to Channels.Count - 1 do
+  begin
+    Channel := Channels[i];
+    if Channel.Active then
+      Channel.Clear;
+  end;
+end;
+
+procedure TLogger.Clear;
+begin
+  if FDefaultChannels <> nil then
+    ClearChannels(FDefaultChannels);
+  ClearChannels(Channels);
 end;
 
 function TLogger.RectToStr(const ARect: TRect): String;
@@ -1130,6 +1163,7 @@ end;
 initialization
   Logger:=TLogger.Create;
 finalization
+  TLogger.FDefaultChannels.Free;
   Logger.Free;
 
 end.
