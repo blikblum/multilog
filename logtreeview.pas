@@ -1,4 +1,4 @@
-unit logtreeview;
+unit LogTreeView;
 
 {$mode objfpc}{$H+}
 

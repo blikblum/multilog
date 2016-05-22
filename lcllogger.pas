@@ -5,7 +5,7 @@ unit LCLLogger;
 interface
 
 uses
-  Classes, SysUtils, Graphics, multilog;
+  Classes, SysUtils, Graphics, MultiLog;
 
 type
 
