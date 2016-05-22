@@ -4,10 +4,11 @@
 
 unit multiloglaz;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  MultiLog, registermultilog, logtreeview, multiloglcl, filechannel, ipcchannel, 
+  MultiLog, registermultilog, logtreeview, LCLLogger, filechannel, IPCChannel, 
   MultiLogLCLHelpers, LazarusPackageIntf;
 
 implementation

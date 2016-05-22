@@ -36,8 +36,8 @@
         <UnitName Value="logtreeview"/>
       </Item3>
       <Item4>
-        <Filename Value="multiloglcl.pas"/>
-        <UnitName Value="multiloglcl"/>
+        <Filename Value="lcllogger.pas"/>
+        <UnitName Value="lcllogger"/>
       </Item4>
       <Item5>
         <Filename Value="filechannel.pas"/>
