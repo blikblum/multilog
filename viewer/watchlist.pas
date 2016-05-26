@@ -25,7 +25,7 @@ unit WatchList;
 interface
 
 uses
-  Classes, SysUtils, sharedlogger;
+  Classes, SysUtils, MultiLog;
   
 type
 
