@@ -192,8 +192,8 @@ type
     procedure SendException(Classes: TDebugClasses; const AText: String; AException: Exception);overload;
     procedure SendHeapInfo(const AText: String); overload; {$ifdef fpc}inline;{$endif}
     procedure SendHeapInfo(Classes: TDebugClasses; const AText: String);overload;
-    procedure SendMemory(const AText: String; Address: Pointer; Size: LongWord); overload; {$ifdef fpc}inline;{$endif}
-    procedure SendMemory(Classes: TDebugClasses; const AText: String; Address: Pointer; Size: LongWord);overload;
+    procedure SendMemory(const AText: String; Address: Pointer; Size: LongWord; Offset: Integer = 0); overload; {$ifdef fpc}inline;{$endif}
+    procedure SendMemory(Classes: TDebugClasses; const AText: String; Address: Pointer; Size: LongWord; Offset: Integer = 0);overload;
     procedure SendIf(const AText: String; Expression: Boolean); overload; {$ifdef fpc}inline;{$endif}
     procedure SendIf(Classes: TDebugClasses; const AText: String; Expression: Boolean); overload;
     procedure SendIf(const AText: String; Expression, IsTrue: Boolean); overload; {$ifdef fpc}inline;{$endif}
@@ -727,15 +727,26 @@ begin
 end;
 
 procedure TLogger.SendMemory(const AText: String; Address: Pointer;
-  Size: LongWord);
+  Size: LongWord; Offset: Integer);
 begin
-  SendMemory(DefaultClasses,AText,Address,Size)
+  SendMemory(DefaultClasses,AText,Address,Size,Offset)
 end;
 
 procedure TLogger.SendMemory(Classes: TDebugClasses; const AText: String;
-  Address: Pointer; Size: LongWord);
+  Address: Pointer; Size: LongWord; Offset: Integer);
 begin
   if Classes * ActiveClasses = [] then Exit;
+  if Address <> nil then
+  begin
+    if Offset <> 0 then
+      Address := Address + Offset;
+  end
+  else
+  begin
+    //empty
+    Address := Self;
+    Size := 0;
+  end;
   SendBuffer(ltMemory,AText,Address^,Size);
 end;
 
