@@ -227,14 +227,17 @@ type
     procedure ResetCheckPoint(Classes: TDebugClasses);overload;
     procedure ResetCheckPoint(const CheckName: String);overload; {$ifdef fpc}inline;{$endif}
     procedure ResetCheckPoint(Classes: TDebugClasses;const CheckName: String);overload;
-    procedure EnterMethod(const AMethodName: String); overload; {$ifdef fpc}inline;{$endif}
-    procedure EnterMethod(Classes: TDebugClasses; const AMethodName: String); overload;
-    procedure EnterMethod(Sender: TObject; const AMethodName: String); overload; {$ifdef fpc}inline;{$endif}
-    procedure EnterMethod(Classes: TDebugClasses; Sender: TObject; const AMethodName: String);overload;
-    procedure ExitMethod(const AMethodName: String); overload; {$ifdef fpc}inline;{$endif}
-    procedure ExitMethod(Sender: TObject; const AMethodName: String); overload; {$ifdef fpc}inline;{$endif}
-    procedure ExitMethod(Classes: TDebugClasses; const AMethodName: String); overload; {$ifdef fpc}inline;{$endif}
-    procedure ExitMethod({%H-}Classes: TDebugClasses; Sender: TObject; const AMethodName: String);overload;
+    procedure EnterMethod(const AMethodName: String; const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
+    procedure EnterMethod(Classes: TDebugClasses; const AMethodName: String;
+      const AMessage: String = ''); overload;
+    procedure EnterMethod(Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
+    procedure EnterMethod(Classes: TDebugClasses; Sender: TObject; const AMethodName: String;
+      const AMessage: String = '');overload;
+    procedure ExitMethod(const AMethodName: String; const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
+    procedure ExitMethod(Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
+    procedure ExitMethod(Classes: TDebugClasses; const AMethodName: String; const AMessage: String = ''); overload; {$ifdef fpc}inline;{$endif}
+    procedure ExitMethod({%H-}Classes: TDebugClasses; Sender: TObject; const AMethodName: String;
+      const AMessage: String = '');overload;
     procedure Watch(const AText, AValue: String); overload; {$ifdef fpc}inline;{$endif}
     procedure Watch(Classes: TDebugClasses; const AText,AValue: String);overload;
     procedure Watch(const AText: String; AValue: Integer); overload; {$ifdef fpc}inline;{$endif}
@@ -253,6 +256,17 @@ type
     property LogStack: TStrings read FLogStack;
     property MaxStackCount: Integer read FMaxStackCount write SetMaxStackCount;
     property OnCustomData: TCustomDataNotify read FOnCustomData write FOnCustomData;
+  end;
+
+ { TLogChannelWrapper }
+
+  TLogChannelWrapper = class(TComponent)
+  private
+    FChannel: TLogChannel;
+  protected
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+  public
+    property Channel: TLogChannel read FChannel write FChannel;
   end;
 
 var
@@ -987,51 +1001,58 @@ begin
   end;
 end;
 
-procedure TLogger.EnterMethod(const AMethodName: String);
+procedure TLogger.EnterMethod(const AMethodName: String; const AMessage: String);
 begin
-  EnterMethod(DefaultClasses,nil,AMethodName);
+  EnterMethod(DefaultClasses,nil,AMethodName,AMessage);
 end;
 
-procedure TLogger.EnterMethod(Classes: TDebugClasses; const AMethodName: String);
+procedure TLogger.EnterMethod(Classes: TDebugClasses; const AMethodName: String; const AMessage: String);
 begin
-  EnterMethod(Classes,nil,AMethodName);
+  EnterMethod(Classes,nil,AMethodName,AMessage);
 end;
 
-procedure TLogger.EnterMethod(Sender: TObject; const AMethodName: String);
+procedure TLogger.EnterMethod(Sender: TObject; const AMethodName: String; const AMessage: String);
 begin
-  EnterMethod(DefaultClasses,Sender,AMethodName);
+  EnterMethod(DefaultClasses,Sender,AMethodName,AMessage);
 end;
 
 procedure TLogger.EnterMethod(Classes: TDebugClasses; Sender: TObject;
-  const AMethodName: String);
+  const AMethodName: String; const AMessage: String);
+var
+  AText: String;
 begin
   if Classes * ActiveClasses = [] then Exit;
   FLogStack.Insert(0, UpperCase(AMethodName));
-  if Sender <> nil then
-    SendStream(ltEnterMethod, GetObjectDescription(Sender) + '.' + AMethodName, nil)
+  if AMessage <> '' then
+    AText := AMessage
+  else if Sender <> nil then
+    AText := GetObjectDescription(Sender) + '.' + AMethodName
   else
-    SendStream(ltEnterMethod, AMethodName, nil);
+    AText := AMethodName;
+  SendStream(ltEnterMethod, AText, nil);
 end;
 
-procedure TLogger.ExitMethod(const AMethodName: String);
+procedure TLogger.ExitMethod(const AMethodName: String; const AMessage: String);
 begin
-  ExitMethod(DefaultClasses,nil,AMethodName);
+  ExitMethod(DefaultClasses,nil,AMethodName,AMessage);
 end;
 
-procedure TLogger.ExitMethod(Sender: TObject; const AMethodName: String);
+procedure TLogger.ExitMethod(Sender: TObject; const AMethodName: String; const AMessage: String);
 begin
-  ExitMethod(DefaultClasses,Sender,AMethodName);
+  ExitMethod(DefaultClasses,Sender,AMethodName,AMessage);
 end;
 
-procedure TLogger.ExitMethod(Classes: TDebugClasses; const AMethodName: String);
+procedure TLogger.ExitMethod(Classes: TDebugClasses; const AMethodName: String;
+  const AMessage: String);
 begin
-  ExitMethod(Classes,nil,AMethodName);
+  ExitMethod(Classes,nil,AMethodName,AMessage);
 end;
 
-procedure TLogger.ExitMethod(Classes: TDebugClasses; Sender: TObject;
-  const AMethodName: String);
+procedure TLogger.ExitMethod(Classes: TDebugClasses; Sender: TObject; const AMethodName: String;
+  const AMessage: String);
 var
   i: Integer;
+  AText: String;
 begin
   //ensure that ExitMethod will be called always even if there's an unpaired Entermethod
   //and Classes is not in ActiveClasses
@@ -1042,10 +1063,14 @@ begin
     FLogStack.Delete(i)
   else
     Exit;
-  if Sender <> nil then
-    SendStream(ltExitMethod, GetObjectDescription(Sender) + '.' + AMethodName, nil)
+
+  if AMessage <> '' then
+    AText := AMessage
+  else if Sender <> nil then
+    AText := GetObjectDescription(Sender) + '.' + AMethodName
   else
-    SendStream(ltExitMethod, AMethodName, nil);
+    AText := AMethodName;
+  SendStream(ltExitMethod, AText, nil);
 end;
 
 procedure TLogger.Watch(const AText, AValue: String);
@@ -1149,6 +1174,13 @@ end;
 procedure TLogChannel.Init;
 begin
 
+end;
+
+procedure TLogChannelWrapper.Notification(AComponent: TComponent; Operation: TOperation);
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation = opRemove) and (FChannel <> nil) then
+    FChannel.Active := False;
 end;
 
 initialization

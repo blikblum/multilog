@@ -21,7 +21,7 @@
     <License Value="Modified LGPL
 "/>
     <Version Minor="6"/>
-    <Files Count="7">
+    <Files Count="9">
       <Item1>
         <Filename Value="multilog.pas"/>
         <UnitName Value="MultiLog"/>
@@ -51,6 +51,14 @@
         <Filename Value="multiloglclhelpers.pas"/>
         <UnitName Value="multiloglclhelpers"/>
       </Item7>
+      <Item8>
+        <Filename Value="outputchannel.pas"/>
+        <UnitName Value="outputchannel"/>
+      </Item8>
+      <Item9>
+        <Filename Value="memochannel.pas"/>
+        <UnitName Value="memochannel"/>
+      </Item9>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>
