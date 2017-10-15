@@ -42,6 +42,7 @@ type
     FShowHeader: Boolean;
     FShowTime: Boolean;
     FShowPrefix: Boolean;
+    FTimeFormat: String;
     procedure SetShowTime(const AValue: Boolean);
     procedure UpdateIdentation;
     procedure WriteStrings(AStream: TStream);
@@ -54,6 +55,7 @@ type
     property ShowHeader: Boolean read FShowHeader write FShowHeader;
     property ShowPrefix: Boolean read FShowPrefix write FShowPrefix;
     property ShowTime: Boolean read FShowTime write SetShowTime;
+    property TimeFormat: String read FTimeFormat write FTimeFormat;
   end;
 
 implementation
@@ -87,7 +89,7 @@ var
 begin
   S:='';
   if FShowTime then
-    S:=FormatDateTime('hh:nn:ss:zzz',Time);
+    S:=FormatDateTime(FTimeFormat,Time);
   FBaseIdent:=Length(S)+3;
 end;
 
@@ -132,11 +134,13 @@ begin
   FShowHeader := fcoShowHeader in ChannelOptions;
   Active := True;
   FFileName := AFileName;
+  FTimeFormat := 'hh:nn:ss:zzz';
 end;
 
 procedure TFileChannel.Clear;
 begin
-  Rewrite(FFileHandle);
+  if FFileName <> '' then
+    Rewrite(FFileHandle);
 end;
 
 procedure TFileChannel.Deliver(const AMsg: TLogMessage);
@@ -144,10 +148,11 @@ begin
   //Exit method identation must be set before
   if (AMsg.MsgType = ltExitMethod) and (FRelativeIdent >= 2) then
     Dec(FRelativeIdent, 2);
-  Append(FFileHandle);
+  if FFileName <> '' then
+    Append(FFileHandle);
   try
     if FShowTime then
-      Write(FFileHandle, FormatDateTime('hh:nn:ss:zzz', AMsg.MsgTime) + ' ');
+      Write(FFileHandle, FormatDateTime(FTimeFormat, AMsg.MsgTime) + ' ');
     Write(FFileHandle, Space(FRelativeIdent));
     if FShowPrefix then
       Write(FFileHandle, LogPrefixes[AMsg.MsgType] + ': ');
@@ -160,7 +165,8 @@ begin
       end;
     end;
   finally
-    Close(FFileHandle);
+    if FFileName <> '' then
+      Close(FFileHandle);
     //Update enter method identation
     if AMsg.MsgType = ltEnterMethod then
       Inc(FRelativeIdent, 2);
@@ -169,14 +175,20 @@ end;
 
 procedure TFileChannel.Init;
 begin
-  Assign(FFileHandle,FFileName);
-  if FileExists(FFileName) then
-    Append(FFileHandle)
+  if FFileName <> '' then
+  begin
+    Assign(FFileHandle,FFileName);
+    if FileExists(FFileName) then
+      Append(FFileHandle)
+    else
+      Rewrite(FFileHandle);
+  end
   else
-    Rewrite(FFileHandle);
+    FFileHandle := Output;
   if FShowHeader then
     WriteLn(FFileHandle,'=== Log Session Started at ',DateTimeToStr(Now),' by ',ApplicationName,' ===');
-  Close(FFileHandle);
+  if FFileName <> '' then
+    Close(FFileHandle);
   UpdateIdentation;
 end;
 
