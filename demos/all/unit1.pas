@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  Buttons, logtreeview, ExtCtrls, StdCtrls, Spin, ipcchannel, MultiLog, MultiLogLCLHelpers;
+  Buttons, ExtCtrls, StdCtrls, Spin,
+  MultiLog, MultiLogLCLHelpers, IPCChannel, LogTreeView, MemoChannel;
 
 type
 
@@ -37,6 +38,10 @@ type
     butWatchInteger: TButton;
     butWarning: TButton;
     butError: TButton;
+    LogMemo: TMemo;
+    MemoTabSheet: TTabSheet;
+    ViewersPageControl: TPageControl;
+    TreeTabSheet: TTabSheet;
     TimeFormatEdit: TEdit;
     ShowTimeCheckBox: TCheckBox;
     EditNamedCheckPoint: TEdit;
@@ -96,6 +101,7 @@ type
     procedure TimeFormatEditEditingDone(Sender: TObject);
   private
     { private declarations }
+    FMemoChannel: TMemoChannel;
   public
     { public declarations }
   end; 
@@ -111,10 +117,14 @@ implementation
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  FMemoChannel := TMemoChannel.Create(LogMemo);
+  FMemoChannel.TimeFormat := LogTreeView1.TimeFormat;
+  FMemoChannel.ShowTime := False;
   TimeFormatEdit.Text := LogTreeView1.TimeFormat;
   with Logger do
   begin
     Channels.Add(LogTreeView1.Channel);
+    Channels.Add(FMemoChannel);
     Channels.Add(TIPCChannel.Create);
     DefaultClasses := [lcDebug];
   end;
@@ -311,6 +321,7 @@ end;
 procedure TForm1.ShowTimeCheckBoxChange(Sender: TObject);
 begin
   LogTreeView1.ShowTime := ShowTimeCheckBox.Checked;
+  FMemoChannel.ShowTime := ShowTimeCheckBox.Checked;
 end;
 
 procedure TForm1.SubLogClick(Sender: TObject);
@@ -343,6 +354,7 @@ end;
 procedure TForm1.TimeFormatEditEditingDone(Sender: TObject);
 begin
   LogTreeView1.TimeFormat := TimeFormatEdit.Text;
+  FMemoChannel.TimeFormat := TimeFormatEdit.Text;
 end;
 
 

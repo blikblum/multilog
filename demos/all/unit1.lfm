@@ -1,11 +1,10 @@
 object Form1: TForm1
   Left = 209
   Height = 359
-  Top = 288
+  Top = 155
   Width = 807
   HorzScrollBar.Page = 806
   VertScrollBar.Page = 358
-  ActiveControl = LogTreeView1
   Caption = 'Test Multilog'
   ClientHeight = 359
   ClientWidth = 807
@@ -13,19 +12,6 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   Position = poScreenCenter
   LCLVersion = '1.7'
-  object LogTreeView1: TLogTreeView
-    Left = 464
-    Height = 333
-    Top = 0
-    Width = 343
-    Align = alClient
-    BorderSpacing.Bottom = 26
-    DefaultItemHeight = 18
-    ScrollBars = ssAutoBoth
-    ShowTime = False
-    TabOrder = 0
-    TimeFormat = 'hh:nn:ss:zzz'
-  end
   object Notebook1: TPageControl
     Left = 0
     Height = 359
@@ -34,7 +20,7 @@ object Form1: TForm1
     ActivePage = pageGeneral
     Align = alLeft
     TabIndex = 0
-    TabOrder = 1
+    TabOrder = 0
     object pageGeneral: TTabSheet
       Caption = 'General'
       ClientHeight = 331
@@ -395,24 +381,67 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     Left = 464
     Height = 19
-    Top = 337
+    Top = 335
     Width = 79
     Anchors = [akLeft, akBottom]
     Caption = 'Show Time'
     OnChange = ShowTimeCheckBoxChange
-    TabOrder = 3
+    TabOrder = 2
   end
   object TimeFormatEdit: TEdit
     AnchorSideLeft.Control = ShowTimeCheckBox
     AnchorSideLeft.Side = asrBottom
     Left = 547
     Height = 23
-    Top = 334
-    Width = 80
+    Top = 332
+    Width = 134
     Anchors = [akLeft, akBottom]
     BorderSpacing.Left = 4
     OnEditingDone = TimeFormatEditEditingDone
+    TabOrder = 3
+  end
+  object ViewersPageControl: TPageControl
+    Left = 464
+    Height = 327
+    Top = 0
+    Width = 343
+    ActivePage = TreeTabSheet
+    Align = alClient
+    BorderSpacing.Bottom = 32
+    TabIndex = 0
     TabOrder = 4
+    object TreeTabSheet: TTabSheet
+      Caption = 'TreeView'
+      ClientHeight = 299
+      ClientWidth = 335
+      object LogTreeView1: TLogTreeView
+        Left = 2
+        Height = 295
+        Top = 2
+        Width = 331
+        Align = alClient
+        BorderSpacing.Around = 2
+        DefaultItemHeight = 18
+        ScrollBars = ssAutoBoth
+        ShowTime = False
+        TabOrder = 0
+        TimeFormat = 'hh:nn:ss:zzz'
+      end
+    end
+    object MemoTabSheet: TTabSheet
+      Caption = 'Memo'
+      ClientHeight = 299
+      ClientWidth = 335
+      object LogMemo: TMemo
+        Left = 2
+        Height = 295
+        Top = 2
+        Width = 331
+        Align = alClient
+        BorderSpacing.Around = 2
+        TabOrder = 0
+      end
+    end
   end
   object OpenDialog1: TOpenDialog
     FilterIndex = 0
