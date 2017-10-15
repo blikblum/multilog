@@ -39,7 +39,7 @@ unit MultiLog;
 interface
 
 uses
-  {$ifndef fpc}Types, fpccompat,{$endif} Classes, SysUtils;
+  {$ifndef fpc}Types, fpccompat,{$endif} Classes, SysUtils, syncobjs;
 
 const
   //MessageTypes
@@ -135,12 +135,14 @@ type
     FCounterList: TStringList;
     FOnCustomData: TCustomDataNotify;
     FLastActiveClasses: TDebugClasses;
+    FThreadSafe: Boolean;
     class var FDefaultChannels: TChannelList;
     procedure GetCallStack(AStream:TStream);
     procedure SetEnabled(AValue: Boolean);
     class function GetDefaultChannels: TChannelList; static;
     function GetEnabled: Boolean;
     procedure SetMaxStackCount(const AValue: Integer);
+    procedure SetThreadSafe(AValue: Boolean);
   protected
     procedure SendStream(AMsgType: Integer;const AText:String; AStream: TStream);
     procedure SendBuffer(AMsgType: Integer;const AText:String;
@@ -256,6 +258,7 @@ type
     property LogStack: TStrings read FLogStack;
     property MaxStackCount: Integer read FMaxStackCount write SetMaxStackCount;
     property OnCustomData: TCustomDataNotify read FOnCustomData write FOnCustomData;
+    property ThreadSafe: Boolean read FThreadSafe write SetThreadSafe;
   end;
 
  { TLogChannelWrapper }
@@ -297,6 +300,19 @@ begin
     Inc(Digits);
   end;
 end;
+
+type
+
+  TFixedCriticalSection = class(TCriticalSection)
+  private
+    {$WARN 5029 off : Private field "$1.$2" is never used} // FDummy not used anywhere so switch off such warnings
+    FDummy: array [0..95] of Byte; // fix multiprocessor cache safety http://blog.synopse.info/post/2016/01/09/Safe-locks-for-multi-thread-applications
+  end;
+
+  TGuardian = TFixedCriticalSection;
+
+var
+  Guardian: TGuardian;
 
 { TLogger }
 
@@ -392,9 +408,13 @@ begin
     MsgText := AText;
     Data := AStream;
   end;
+  if FThreadSafe then
+    Guardian.Enter;
   if FDefaultChannels <> nil then
     DispatchLogMessage(FDefaultChannels, Msg);
   DispatchLogMessage(Channels, Msg);
+  if FThreadSafe then
+    Guardian.Leave;
   AStream.Free;
 end;
 
@@ -419,6 +439,13 @@ begin
     FMaxStackCount := AValue
   else
     FMaxStackCount := 256;
+end;
+
+procedure TLogger.SetThreadSafe(AValue: Boolean);
+begin
+  FThreadSafe := AValue;
+  if AValue and not Assigned(Guardian) then
+    Guardian := TGuardian.Create;
 end;
 
 constructor TLogger.Create;
@@ -1188,6 +1215,7 @@ initialization
 finalization
   TLogger.FDefaultChannels.Free;
   Logger.Free;
+  Guardian.Free;
 
 end.
 
