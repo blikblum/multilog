@@ -39,7 +39,7 @@ step ❶:
 Calling program sends events;                               There's a distibution of groups of
 each event can have its                                     methods too, each group specialized in
 *Why*ThisLogging's justification.                           *How* to forward an event type towards its
-So, there's a distribution of groups of											channel's target
+So, there's a distribution of groups of				channel's target
 event's justifications                                                                                                              
                                                                                                               
                                                                                                               
