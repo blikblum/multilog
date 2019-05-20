@@ -61,7 +61,6 @@ type
     property ShowPrefix: Boolean read FShowPrefix write FShowPrefix;
     property ShowTime: Boolean read FShowTime write SetShowTime;
     property TimeFormat: String read FTimeFormat write FTimeFormat;
-    property iMaxLogSize: UInt64 read FiMaxLogSize default 4000000000;  (*5 Mo*)	// comming soon: backup of the log.
   end;
 
 implementation
