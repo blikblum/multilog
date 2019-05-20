@@ -1,6 +1,6 @@
 unit FileChannel;
 
-{ Copyright (C) 2006 Luiz Américo Pereira Câmara
+{ Copyright (C) 2006 Luiz AmÃ©rico Pereira CÃ¢mara
 
   This library is free software; you can redistribute it and/or modify it
   under the terms of the GNU Library General Public License as published by
@@ -28,27 +28,32 @@ uses
 type
 
   TFileChannelOption = (fcoShowHeader, fcoShowPrefix, fcoShowTime);
-
   TFileChannelOptions = set of TFileChannelOption;
 
   { TFileChannel }
 
   TFileChannel = class (TLogChannel)
   private
-    FFileHandle: Text;
-    FFileName: String;
+    FMsg: TLogMessage;
+    FPathFileName: string;
+    	FFileHandle: TextFile;
     FRelativeIdent: Integer;
     FBaseIdent: Integer;
     FShowHeader: Boolean;
     FShowTime: Boolean;
     FShowPrefix: Boolean;
-    FTimeFormat: String;
+    FTimeFormat: string;
+    FShowWhyThisLogging: Boolean;
     procedure SetShowTime(const AValue: Boolean);
     procedure UpdateIdentation;
-    procedure WriteStrings(AStream: TStream);
-    procedure WriteComponent(AStream: TStream);
+    procedure WriteStringsOfMsgDataStream();
+    procedure WriteComponentOfMsgDataStream();
+    (* log size management *)
+    function GetFileLogSize: UInt64;
+  protected
+    property PathFileName: string read FPathFileName;
   public
-    constructor Create (const AFileName: String; ChannelOptions: TFileChannelOptions = [fcoShowHeader, fcoShowTime]);
+    constructor Create(const AFileName: String; AChannelOptions: TFileChannelOptions = [fcoShowHeader, fcoShowTime]);
     procedure Clear; override;
     procedure Deliver(const AMsg: TLogMessage);override;
     procedure Init; override;
@@ -56,9 +61,11 @@ type
     property ShowPrefix: Boolean read FShowPrefix write FShowPrefix;
     property ShowTime: Boolean read FShowTime write SetShowTime;
     property TimeFormat: String read FTimeFormat write FTimeFormat;
+    property iMaxLogSize: UInt64 read FiMaxLogSize default 4000000000;  (*5 Mo*)	// comming soon: backup of the log.
   end;
 
 implementation
+
 
 const
   LogPrefixes: array [ltInfo..ltCounter] of String = (
@@ -81,6 +88,17 @@ const
     'WATCH',
     'COUNTER');
 
+	QualifiersWhyMsgIsLogged: array [lcDebug..lcTrackSQLissue] of String = (
+    'Debug',
+    'Error',
+    'Info',
+    'Warning',
+    'Event(s)',
+    '', '', '', '',
+    'TrackSQLissue');
+
+
+
 { TFileChannel }
 
 procedure TFileChannel.UpdateIdentation;
@@ -99,86 +117,116 @@ begin
   UpdateIdentation;
 end;
 
-procedure TFileChannel.WriteStrings(AStream: TStream);
+procedure TFileChannel.WriteStringsOfMsgDataStream();
 var
   i: Integer;
 begin
-  if AStream.Size = 0 then Exit;
-  with TStringList.Create do
-  try
-    AStream.Position:=0;
-    LoadFromStream(AStream);
-    for i:= 0 to Count - 1 do
-      WriteLn(FFileHandle,Space(FRelativeIdent+FBaseIdent)+Strings[i]);
-  finally
-    Destroy;
+  if FMsg.Data.Size = 0 then Exit;	// pre-condition
+  with TStringList.Create do begin
+    try
+      FMsg.Data.Position:=0;
+      LoadFromStream(FMsg.Data);
+      for i:= 0 to Count - 1 do
+	      WriteLn(FFileHandle,Space(FRelativeIdent+FBaseIdent) + Strings[i]);
+    finally
+      Destroy;
+    end;
   end;
 end;
 
-procedure TFileChannel.WriteComponent(AStream: TStream);
+procedure TFileChannel.WriteComponentOfMsgDataStream();
 var
   TextStream: TStringStream;
 begin
   TextStream:=TStringStream.Create('');
-  AStream.Seek(0,soFromBeginning);
-  ObjectBinaryToText(AStream,TextStream);
-  //todo: better handling of format
-  Write(FFileHandle,TextStream.DataString);
+  FMsg.Data.Seek(0,soFromBeginning);
+  ObjectBinaryToText(FMsg.Data,TextStream);
+  Write(FFileHandle, TextStream.DataString);  	//todo: better handling of format
+
   TextStream.Destroy;
 end;
 
-constructor TFileChannel.Create(const AFileName: String; ChannelOptions: TFileChannelOptions);
+{------------------------------------------------------------------
+Â§Explanations: returns de files'size.
+-------------------------------------------------------------------}
+function TFileChannel.GetFileLogSize: UInt64;
 begin
-  FShowPrefix := fcoShowPrefix in ChannelOptions;
-  FShowTime := fcoShowTime in ChannelOptions;
-  FShowHeader := fcoShowHeader in ChannelOptions;
+	// comming soon, with FiMaxLogSize: UInt64;	...
+end;
+
+
+
+
+constructor TFileChannel.Create(const AFileName: String; AChannelOptions: TFileChannelOptions);
+begin
+  FShowPrefix := fcoShowPrefix in AChannelOptions;
+  FShowTime := fcoShowTime in AChannelOptions;
+  FShowHeader := fcoShowHeader in AChannelOptions;
+  FShowWhyThisLogging:= false;
   Active := True;
-  FFileName := AFileName;
   FTimeFormat := 'hh:nn:ss:zzz';
+  FPathFileName := AFileName;
 end;
 
 procedure TFileChannel.Clear;
 begin
-  if FFileName <> '' then
+  if FPathFileName <> '' then
     Rewrite(FFileHandle);
 end;
 
 procedure TFileChannel.Deliver(const AMsg: TLogMessage);
+var
+  WholeMsg: string;
 begin
+  FMsg:= AMsg;
+  FShowWhyThisLogging:= (FMsg.WhyThisLogging <> lcNone);
+  WholeMsg := '';
   //Exit method identation must be set before
-  if (AMsg.MsgType = ltExitMethod) and (FRelativeIdent >= 2) then
+  if (FMsg.MsgType = ltExitMethod) and (FRelativeIdent >= 2) then
     Dec(FRelativeIdent, 2);
-  if FFileName <> '' then
+  if (FPathFileName <> '') then
     Append(FFileHandle);
+
   try
     if FShowTime then
-      Write(FFileHandle, FormatDateTime(FTimeFormat, AMsg.MsgTime) + ' ');
-    Write(FFileHandle, Space(FRelativeIdent));
+      WholeMsg := FormatDateTime(FTimeFormat, FMsg.MsgTime) + ' ';
+		WholeMsg := WholeMsg + Space(FRelativeIdent);
+    //FShowPrefix can serve as qualifier for each current msg, allowing further thematic extractions
     if FShowPrefix then
-      Write(FFileHandle, LogPrefixes[AMsg.MsgType] + ': ');
-    Writeln(FFileHandle, AMsg.MsgText);
-    if AMsg.Data <> nil then
+      WholeMsg := WholeMsg + (LogPrefixes[FMsg.MsgType] + ':   ');
+
+    //write qualifier explaining Why this Msg (is | is not) logged?
+    if FShowWhyThisLogging then begin
+      if ((FMsg.MsgType = ltEnterMethod) or (FMsg.MsgType = ltExitMethod)) then
+      	 WholeMsg := WholeMsg + '|' + QualifiersWhyMsgIsLogged[FMsg.WhyThisLogging] + '| '
+			else
+         WholeMsg := WholeMsg + LineEnding + '|' + QualifiersWhyMsgIsLogged[FMsg.WhyThisLogging] + '| '
+    end;
+    WholeMsg:= WholeMsg + FMsg.MsgText;
+    WriteLn(FFileHandle, WholeMsg);
+    //if there's a TStream to write
+    if FMsg.Data <> nil then
     begin
-      case AMsg.MsgType of
-        ltStrings, ltCallStack, ltHeapInfo, ltException: WriteStrings(AMsg.Data);
-        ltObject: WriteComponent(AMsg.Data);
+      case FMsg.MsgType of
+        ltStrings, ltCallStack, ltHeapInfo, ltException, ltMemory: WriteStringsOfMsgDataStream();
+        ltObject: WriteComponentOfMsgDataStream();
       end;
     end;
   finally
-    if FFileName <> '' then
+    if (FPathFileName <> '') then
       Close(FFileHandle);
     //Update enter method identation
-    if AMsg.MsgType = ltEnterMethod then
+    if (FMsg.MsgType = ltEnterMethod) then
       Inc(FRelativeIdent, 2);
   end;
 end;
 
 procedure TFileChannel.Init;
 begin
-  if FFileName <> '' then
+  if FPathFileName <> '' then
   begin
-    Assign(FFileHandle,FFileName);
-    if FileExists(FFileName) then
+    Assign(FFileHandle, FPathFileName);
+    if FileExists(FPathFileName) then
       Append(FFileHandle)
     else
       Rewrite(FFileHandle);
@@ -187,10 +235,11 @@ begin
     FFileHandle := Output;
   if FShowHeader then
     WriteLn(FFileHandle,'=== Log Session Started at ',DateTimeToStr(Now),' by ',ApplicationName,' ===');
-  if FFileName <> '' then
+  if FPathFileName <> '' then
     Close(FFileHandle);
   UpdateIdentation;
 end;
 
 end.
+
 
