@@ -117,14 +117,32 @@ implementation
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  // TLogTreeView is dynamically created, for those who haven't installed the package and then cannot drop this component from the palette, 
+  // to compile this project (+ added distribution of groups of why we log).
+  FoLogTreeView:= TLogTreeView.Create(Self);
+  with FoLogTreeView do begin
+    Parent:= TreeTabSheet;
+    Left := 2;
+    Height := 295;
+    Top := 2;
+    Width := 331;
+    Align := alClient;
+    BorderSpacing.Around := 2;
+    DefaultItemHeight := 18;
+    ScrollBars := ssAutoBoth;
+    ShowTime := False;
+    TabOrder := 0;
+    TimeFormat := 'hh:nn:ss:zzz';
+  end;
   FMemoChannel := TMemoChannel.Create(LogMemo);
-  FMemoChannel.TimeFormat := LogTreeView1.TimeFormat;
+  FMemoChannel.TimeFormat := FoLogTreeView.TimeFormat;
   FMemoChannel.ShowTime := False;
-  TimeFormatEdit.Text := LogTreeView1.TimeFormat;
+  TimeFormatEdit.Text := FoLogTreeView.TimeFormat;
   with Logger do
   begin
-    Channels.Add(LogTreeView1.Channel);
+    Channels.Add(FoLogTreeView.Channel);
     Channels.Add(FMemoChannel);
+    Channels.Add(TFileChannel.Create('coucou.log'));
     Channels.Add(TIPCChannel.Create);
     DefaultClasses := [lcDebug];
   end;
@@ -192,8 +210,11 @@ begin
   try
     StrToInt('XXXXX');
   except
-    On E: Exception do
+    On E: Exception do begin
+      Logger.WhyThisMsg:= lcError; DoApplyCorrectShowWhy();
       Logger.SendException('An Exception example',E);
+      Logger.WhyThisMsg:= lcNone;
+    end;
   end
 end;
 
@@ -225,8 +246,13 @@ end;
 
 procedure TForm1.ButAddNamedCheckPointClick(Sender: TObject);
 begin
-  if EditNamedCheckPoint.Text <> '' then
+  Logger.WhyThisMsg:= lcDebug; DoApplyCorrectShowWhy();
+  if EditNamedCheckPoint.Text <> '' then begin
     Logger.AddCheckPoint(EditNamedCheckPoint.Text);
+    Logger.AddCheckPoint(EditNamedCheckPoint.Text);
+    Logger.AddCheckPoint(EditNamedCheckPoint.Text);
+  end;
+  Logger.WhyThisMsg:= lcNone;
 end;
 
 procedure TForm1.butCalledByClick(Sender: TObject);
@@ -238,7 +264,9 @@ end;
 
 procedure TForm1.butCallStackClick(Sender: TObject);
 begin
+  Logger.WhyThisMsg:= lcInfo; DoApplyCorrectShowWhy();
   Logger.SendCallStack('A CallStack Example');
+  Logger.WhyThisMsg:= lcNone;
 end;
 
 procedure TForm1.butFloatClick(Sender: TObject);
@@ -248,23 +276,34 @@ end;
 
 procedure TForm1.ButGenericCheckPointClick(Sender: TObject);
 begin
+  Logger.WhyThisMsg:= lcDebug; DoApplyCorrectShowWhy();
   Logger.AddCheckPoint;
+  Logger.AddCheckPoint;
+  Logger.AddCheckPoint;
+  Logger.WhyThisMsg:= lcNone;
 end;
 
 procedure TForm1.butHeapInfoClick(Sender: TObject);
 begin
+  Logger.WhyThisMsg:= lcInfo; DoApplyCorrectShowWhy();
   Logger.SendHeapInfo('A Heap Info Example');
+  Logger.WhyThisMsg:= lcNone;
 end;
 
 procedure TForm1.butInfoClick(Sender: TObject);
 begin
-  if EditInfo.Text <> '' then
+  if EditInfo.Text <> '' then begin
+    Logger.WhyThisMsg:= lcInfo; DoApplyCorrectShowWhy();
     Logger.Send(EditInfo.Text);
+    Logger.WhyThisMsg:= lcNone;
+  end;
 end;
 
 procedure TForm1.butIntegerClick(Sender: TObject);
 begin
-  Logger.Send('A Integer Variable',spinInteger.Value);
+  Logger.WhyThisMsg:= lcInfo; DoApplyCorrectShowWhy();
+  Logger.Send('A Integer Variable', spinInteger.Value);
+  Logger.WhyThisMsg:= lcNone;
 end;
 
 procedure TForm1.ButOpenImageClick(Sender: TObject);
@@ -282,8 +321,10 @@ procedure TForm1.ButSendMemoryClick(Sender: TObject);
 var
  AStr: String;
 begin
+  Logger.WhyThisMsg:= lcInfo; DoApplyCorrectShowWhy();
   AStr:='dfhejhrgtjehrgthjergthjergthjergterbdfngm';
-  Logger.SendMemory('The memory of a string',PChar(AStr),Length(AStr));
+  Logger.SendMemory('The memory (through an @ddress), of a string found by the recipent(s) of the registred Channels', PChar(AStr), Length(AStr));	//sends a PChar towards the heap (whose used memory should decrease)
+  Logger.WhyThisMsg:= lcNone;
 end;
 
 procedure TForm1.butStringClick(Sender: TObject);
@@ -293,8 +334,10 @@ end;
 
 procedure TForm1.butStringsClick(Sender: TObject);
 begin
-  if memoStrings.Lines.Count > 0 then
-    Logger.Send('A TStrings',memoStrings.Lines);
+  if memoStrings.Lines.Count > 0 then begin
+    Logger.WhyThisMsg:= lcNone;  // no more explanation, about the reason *Why* we log.
+    Logger.Send('A TStrings', memoStrings.Lines);
+  end;
 end;
 
 procedure TForm1.butWarningClick(Sender: TObject);
@@ -305,23 +348,35 @@ end;
 
 procedure TForm1.butWatchIntegerClick(Sender: TObject);
 begin
-  Logger.Watch('X',spinWatchInteger.Value);
+  Logger.Watch('X (varying in a loop, for example)', spinWatchInteger.Value);
 end;
 
 procedure TForm1.butWatchStringClick(Sender: TObject);
 begin
-  Logger.Watch('StrVar',EditWatchString.Text);
+  Logger.Watch('Str (varying in a conditional concatenation''s, for example)', EditWatchString.Text);
+end;
+
+procedure TForm1.chkShowWhyChange(Sender: TObject);
+begin
+  FbShowWhy:= chkShowWhy.Checked;
+end;
+
+procedure TForm1.DoApplyCorrectShowWhy();
+begin
+	if not FbShowWhy then
+		Logger.WhyThisMsg:= lcNone;
 end;
 
 procedure TForm1.ObjectClick(Sender: TObject);
 begin
-  Logger.Send('An TObject Example',Sender)
+  Logger.WhyThisMsg:= lcTrackSQLissue; DoApplyCorrectShowWhy();
+  Logger.Send('An TObject Example',Sender);
+  Logger.WhyThisMsg:= lcNone;
 end;
 
 procedure TForm1.ShowTimeCheckBoxChange(Sender: TObject);
 begin
-  LogTreeView1.ShowTime := ShowTimeCheckBox.Checked;
-  FMemoChannel.ShowTime := ShowTimeCheckBox.Checked;
+  FoLogTreeView.ShowTime := ShowTimeCheckBox.Checked;
 end;
 
 procedure TForm1.SubLogClick(Sender: TObject);
@@ -330,10 +385,13 @@ var
 begin
   with Logger do
   begin
-    OldClasses:=ActiveClasses;
+    WhyThisMsg:= lcEvent; DoApplyCorrectShowWhy();
+    OldClasses:= ActiveClasses;
     ActiveClasses:=lcAll;
+    WhyThisMsg:= lcTrackSQLissue; DoApplyCorrectShowWhy();
     EnterMethod(Sender,'SubLogClick');
-    SendIf('Only show if called by TestLogClick',CalledBy('TestLogClick'));
+    SendIf('Only show if called by TestLogClick', CalledBy('TestLogClick'));
+    SendIf('Only show if called by SubLogClick', CalledBy('SubLogClick'));
     Send('AText inside DoIt');
     SendWarning('AWarning');
     SendCallStack('CallStack example');
@@ -342,21 +400,23 @@ begin
     Send('A Boolean',True);
     ExitMethod(Sender,'SubLogClick');
     ActiveClasses:=OldClasses;
+    WhyThisMsg:= lcNone;
   end;
 end;
 
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
-  Logger.Channels.Remove(LogTreeView1.Channel);
+  Logger.Channels.Remove(FoLogTreeView.Channel);
+  FreeAndNil(FoLogTreeView);
 end;
 
 procedure TForm1.TimeFormatEditEditingDone(Sender: TObject);
 begin
-  LogTreeView1.TimeFormat := TimeFormatEdit.Text;
+  FoLogTreeView.TimeFormat := TimeFormatEdit.Text;
   FMemoChannel.TimeFormat := TimeFormatEdit.Text;
 end;
 
 
 end.
-
+   
