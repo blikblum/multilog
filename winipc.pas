@@ -1,4 +1,7 @@
 unit winipc;
+{§< Unit containing TWinIPCClient, an IPC-Client named TWinIPCClient specifically targeted to run on Microsoft Windows, using APIs like @code(FindWindow();), etc.
+}
+
 
 
 interface
@@ -145,8 +148,7 @@ begin
 
 end;
 
-procedure TWinIPCClient.SendStringMessageFmt(Msg: String;
-  Args: array of const);
+procedure TWinIPCClient.SendStringMessageFmt(Msg: String; Args: array of const);
 begin
 
 end;
