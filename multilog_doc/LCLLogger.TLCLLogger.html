@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>MultiLog: LCLLogger: Class TLCLLogger</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>MultiLog</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TLCLLogger"></span><h1 class="cio">Class TLCLLogger</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section">Properties</div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="LCLLogger.html">LCLLogger</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TLCLLogger = class(<a class="normal" href="MultiLog.TLogger.html">TLogger</a>)</code></p>
+<h2 class="description">Description</h2>
+<div class="nodescription">No description available, ancestor TLogger description follows</div><p>
+Brief summmary of the processing of a <code>TLogger</code>'s mathod call: <br> <pre>
+<u>step ❶:</u>
+          |                                                              |
+Calling program sends events;                               There's a distibution of groups of
+each event can have its                                     methods too, each group specialized in
+*Why*ThisLogging's justification.                           *How* to forward an event type towards its
+So, there's a distribution of groups of                          channel's target
+event's justifications
+.../...
+        (lcEvents)→                                                   (lcEvents)(ltEnterMethod)→
+          .../...                                                       .../...
+        (lcEvents)→                                                   (lcEvents)(ltExitMethod)→
+   (lcNone)→                                                       (lcNone)(ltInfo)→
+       (lcNone)→                                                     (lcNone)(ltInfo)→
+  (lcStudyChainedEvents)(ltSubEventBetweenEnterAndExitMethods)→                                            (lcStudyChainedEvents)(ltSubEventBetweenEnterAndExitMethods)→
+     .../...                                                        .../...
+     (lcNone)→                                                      (lcNone)(ltValue\@integer)→
+  (lcStudyChainedEvents)(ltSubEventBetweenEnterAndExitMethods)→                                           (lcStudyChainedEvents)(ltSubEventBetweenEnterAndExitMethods)→
+(lcNone)→                                                     (lcNone)(ltValue\@boolean)→
+.../...
+
+
+
+<u>step ❷:</u>
+         |                                                            |
+There's a distibution of groups of                            ActiveClasses acts like a wall: if the *How* to forward isn't present
+method, each group specialized in                             in the ActiveClasses's "set Of *How*" type, then, the event doesn't go further.
+*How* to forward an event type towards its channel's target.  Let say that ActiveClasses = [ltEnterMethod, ltExitMethod, ltValue]:
+.../...                                                               ↺|||
+(lcEvents)(ltEnterMethod)→                                              (lcEvents)(ltEnterMethod)→
+.../...                                                               ↺|||
+(lcEvents)(ltExitMethod)→                                               (lcEvents)(ltExitMethod)→
+.../...                                                               ↺|||
+(lcStudyChainedEvents)(ltSubEventBetweenEnterAndExitMethods)→         ↺|||
+.../...                                                               ↺|||
+  (lcNone)(ltValue\@integer)→                                           (lcNone)(ltValue\@integer)→
+  (lcStudyChainedEvents)(ltSubEventBetweenEnterAndExitMethods)→       ↺|||
+(lcNone)(ltValue\@boolean)→                                             (lcNone)(ltValue\@boolean)→
+.../...                                                               ↺|||
+.../...                                                               ↺|||
+
+
+
+<u>step ❸:</u>
+|                                                                                                               |
+ActiveClasses acts like a wall: if the *How* to forward isn't present                               For each specialized Channel leading
+in the ActiveClasses's "Set Of *How*" type, then, the event doesn't go further.                     to a display medium (TMemo □, TFileText ○,TLogTreeView ▶)
+Let say that ActiveClasses = [ltEnterMethod, ltExitMethod, ltValue]:                                will receive the msg and display it.
+|
+(lcEvents)(ltEnterMethod)→                                                                                    ○ + □
+|
+(lcEvents)(ltExitMethod)→                                                                                       □
+|
+|   .../...
+|
+(lcNone)(ltValue\@integer)→                                                                                    ○
+|
+(lcNone)(ltValue\@boolean)→                                                                                    ○ + ▶
+.../...
+</pre></p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor"><a class="normal" href="MultiLog.TLogger.html">TLogger</a></li>
+<li class="thisitem">TLCLLogger</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="LCLLogger.TLCLLogger.html#SendBitmap">SendBitmap</a></b>(const AText: String; ABitmap: TBitmap);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="LCLLogger.TLCLLogger.html#SendBitmap">SendBitmap</a></b>(Classes: <a  href="MultiLog.html#TDebugClasses">TDebugClasses</a>; const AText: String; ABitmap: TBitmap);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="LCLLogger.TLCLLogger.html#SendColor">SendColor</a></b>(const AText: String; AColor: TColor);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="LCLLogger.TLCLLogger.html#SendColor">SendColor</a></b>(Classes: <a  href="MultiLog.html#TDebugClasses">TDebugClasses</a>; const AText: String; AColor: TColor);</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendBitmap"></span><code>procedure <b>SendBitmap</b>(const AText: String; ABitmap: TBitmap);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendBitmap"></span><code>procedure <b>SendBitmap</b>(Classes: <a  href="MultiLog.html#TDebugClasses">TDebugClasses</a>; const AText: String; ABitmap: TBitmap);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendColor"></span><code>procedure <b>SendColor</b>(const AText: String; AColor: TColor);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendColor"></span><code>procedure <b>SendColor</b>(Classes: <a  href="MultiLog.html#TDebugClasses">TDebugClasses</a>; const AText: String; AColor: TColor);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

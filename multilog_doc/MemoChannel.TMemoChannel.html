@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>MultiLog: MemoChannel: Class TMemoChannel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>MultiLog</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TMemoChannel"></span><h1 class="cio">Class TMemoChannel</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="MemoChannel.html">MemoChannel</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TMemoChannel = class(<a class="normal" href="MultiLog.TLogChannel.html">TLogChannel</a>)</code></p>
+<h2 class="description">Description</h2>
+<div class="nodescription">No description available, ancestor TLogChannel description follows</div><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor"><a class="normal" href="MultiLog.TLogChannel.html">TLogChannel</a></li>
+<li class="thisitem">TMemoChannel</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FMsg">FMsg</a></b>: <a  href="MultiLog.TLogMessage.html">TLogMessage</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FMemo">FMemo</a></b>: TMemo;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FRelativeIdent">FRelativeIdent</a></b>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FBaseIdent">FBaseIdent</a></b>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FShowHeader">FShowHeader</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FShowTime">FShowTime</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FShowPrefix">FShowPrefix</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FUnlimitedBuffer">FUnlimitedBuffer</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FRotaryBuffer">FRotaryBuffer</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FTimeFormat">FTimeFormat</a></b>: String;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FShowWhyThisLogging">FShowWhyThisLogging</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FLogLinesLimit">FLogLinesLimit</a></b>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MemoChannel.TMemoChannel.html#FWrapper">FWrapper</a></b>: <a  href="MultiLog.TLogChannelWrapper.html">TLogChannelWrapper</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MemoChannel.TMemoChannel.html#SetLogLinesLimit">SetLogLinesLimit</a></b>(AValue: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MemoChannel.TMemoChannel.html#SetShowTime">SetShowTime</a></b>(const AValue: Boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MemoChannel.TMemoChannel.html#UpdateIdentation">UpdateIdentation</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MemoChannel.TMemoChannel.html#Write">Write</a></b>(const AMsg: string);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MemoChannel.TMemoChannel.html#WriteStringsOfMsgDataStream">WriteStringsOfMsgDataStream</a></b>();</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MemoChannel.TMemoChannel.html#WriteComponentOfMsgDataStream">WriteComponentOfMsgDataStream</a></b>();</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="MemoChannel.TMemoChannel.html#Create">Create</a></b>(AMemo: TMemo; AChannelOptions: <a  href="MemoChannel.html#TMemoChannelOptions">TMemoChannelOptions</a> = [<a  href="MemoChannel.html#fcoShowHeader">fcoShowHeader</a>, <a  href="MemoChannel.html#fcoShowTime">fcoShowTime</a>] );</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="MemoChannel.TMemoChannel.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MemoChannel.TMemoChannel.html#WriteAsyncQueue">WriteAsyncQueue</a></b>(Data: <a  href="fpccompat.html#PtrInt">PtrInt</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MemoChannel.TMemoChannel.html#Deliver">Deliver</a></b>(const AMsg: <a  href="MultiLog.TLogMessage.html">TLogMessage</a>); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MemoChannel.TMemoChannel.html#Init">Init</a></b>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MemoChannel.TMemoChannel.html#Clear">Clear</a></b>; override;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="MemoChannel.TMemoChannel.html#ShowHeader">ShowHeader</a></b>: boolean read <a  href="MemoChannel.TMemoChannel.html#FShowHeader">FShowHeader</a> <a  href="MemoChannel.TMemoChannel.html#Write">write</a> <a  href="MemoChannel.TMemoChannel.html#FShowHeader">FShowHeader</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="MemoChannel.TMemoChannel.html#ShowPrefix">ShowPrefix</a></b>: boolean read <a  href="MemoChannel.TMemoChannel.html#FShowPrefix">FShowPrefix</a> <a  href="MemoChannel.TMemoChannel.html#Write">write</a> <a  href="MemoChannel.TMemoChannel.html#FShowPrefix">FShowPrefix</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="MemoChannel.TMemoChannel.html#ShowTime">ShowTime</a></b>: boolean read <a  href="MemoChannel.TMemoChannel.html#FShowTime">FShowTime</a> <a  href="MemoChannel.TMemoChannel.html#Write">write</a> <a  href="MemoChannel.TMemoChannel.html#SetShowTime">SetShowTime</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="MemoChannel.TMemoChannel.html#LogLinesLimit">LogLinesLimit</a></b>: integer read <a  href="MemoChannel.TMemoChannel.html#FLogLinesLimit">FLogLinesLimit</a> <a  href="MemoChannel.TMemoChannel.html#Write">write</a> <a  href="MemoChannel.TMemoChannel.html#SetLogLinesLimit">SetLogLinesLimit</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="MemoChannel.TMemoChannel.html#TimeFormat">TimeFormat</a></b>: String read <a  href="MemoChannel.TMemoChannel.html#FTimeFormat">FTimeFormat</a> <a  href="MemoChannel.TMemoChannel.html#Write">write</a> <a  href="MemoChannel.TMemoChannel.html#FTimeFormat">FTimeFormat</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FMsg"></span><code><b>FMsg</b>: <a  href="MultiLog.TLogMessage.html">TLogMessage</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FMemo"></span><code><b>FMemo</b>: TMemo;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FRelativeIdent"></span><code><b>FRelativeIdent</b>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FBaseIdent"></span><code><b>FBaseIdent</b>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FShowHeader"></span><code><b>FShowHeader</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FShowTime"></span><code><b>FShowTime</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FShowPrefix"></span><code><b>FShowPrefix</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FUnlimitedBuffer"></span><code><b>FUnlimitedBuffer</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FRotaryBuffer"></span><code><b>FRotaryBuffer</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FTimeFormat"></span><code><b>FTimeFormat</b>: String;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FShowWhyThisLogging"></span><code><b>FShowWhyThisLogging</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FLogLinesLimit"></span><code><b>FLogLinesLimit</b>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FWrapper"></span><code><b>FWrapper</b>: <a  href="MultiLog.TLogChannelWrapper.html">TLogChannelWrapper</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="SetLogLinesLimit"></span><code>procedure <b>SetLogLinesLimit</b>(AValue: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="SetShowTime"></span><code>procedure <b>SetShowTime</b>(const AValue: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="UpdateIdentation"></span><code>procedure <b>UpdateIdentation</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="Write"></span><code>procedure <b>Write</b>(const AMsg: string);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Put log msg into queue that will be processed from the main thread - ie the application's main UI thread - after all other messages, ie the function returns immediately (asynchronous call), do not wait for the result, removing the possibility of a inter-messages deadlock in a window's queue.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="WriteStringsOfMsgDataStream"></span><code>procedure <b>WriteStringsOfMsgDataStream</b>();</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="WriteComponentOfMsgDataStream"></span><code>procedure <b>WriteComponentOfMsgDataStream</b>();</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <b>Create</b>(AMemo: TMemo; AChannelOptions: <a  href="MemoChannel.html#TMemoChannelOptions">TMemoChannelOptions</a> = [<a  href="MemoChannel.html#fcoShowHeader">fcoShowHeader</a>, <a  href="MemoChannel.html#fcoShowTime">fcoShowTime</a>] );</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WriteAsyncQueue"></span><code>procedure <b>WriteAsyncQueue</b>(Data: <a  href="fpccompat.html#PtrInt">PtrInt</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Called from main thread, after all other messages have been processed to allow thread safe TMemo access.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Deliver"></span><code>procedure <b>Deliver</b>(const AMsg: <a  href="MultiLog.TLogMessage.html">TLogMessage</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Init"></span><code>procedure <b>Init</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Clear"></span><code>procedure <b>Clear</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ShowHeader"></span><code>property <b>ShowHeader</b>: boolean read <a  href="MemoChannel.TMemoChannel.html#FShowHeader">FShowHeader</a> <a  href="MemoChannel.TMemoChannel.html#Write">write</a> <a  href="MemoChannel.TMemoChannel.html#FShowHeader">FShowHeader</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ShowPrefix"></span><code>property <b>ShowPrefix</b>: boolean read <a  href="MemoChannel.TMemoChannel.html#FShowPrefix">FShowPrefix</a> <a  href="MemoChannel.TMemoChannel.html#Write">write</a> <a  href="MemoChannel.TMemoChannel.html#FShowPrefix">FShowPrefix</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ShowTime"></span><code>property <b>ShowTime</b>: boolean read <a  href="MemoChannel.TMemoChannel.html#FShowTime">FShowTime</a> <a  href="MemoChannel.TMemoChannel.html#Write">write</a> <a  href="MemoChannel.TMemoChannel.html#SetShowTime">SetShowTime</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="LogLinesLimit"></span><code>property <b>LogLinesLimit</b>: integer read <a  href="MemoChannel.TMemoChannel.html#FLogLinesLimit">FLogLinesLimit</a> <a  href="MemoChannel.TMemoChannel.html#Write">write</a> <a  href="MemoChannel.TMemoChannel.html#SetLogLinesLimit">SetLogLinesLimit</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TimeFormat"></span><code>property <b>TimeFormat</b>: String read <a  href="MemoChannel.TMemoChannel.html#FTimeFormat">FTimeFormat</a> <a  href="MemoChannel.TMemoChannel.html#Write">write</a> <a  href="MemoChannel.TMemoChannel.html#FTimeFormat">FTimeFormat</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

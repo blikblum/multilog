@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>MultiLog: MultiLog: Class TLogger</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>MultiLog</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TLogger"></span><h1 class="cio">Class TLogger</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="MultiLog.html">MultiLog</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TLogger = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Brief summmary of the processing of a <code>TLogger</code>'s mathod call: <br> <pre>
+<u>step ❶:</u>
+          |                                                              |
+Calling program sends events;                               There's a distibution of groups of
+each event can have its                                     methods too, each group specialized in
+*Why*ThisLogging's justification.                           *How* to forward an event type towards its
+So, there's a distribution of groups of                          channel's target
+event's justifications
+.../...
+        (lcEvents)→                                                   (lcEvents)(ltEnterMethod)→
+          .../...                                                       .../...
+        (lcEvents)→                                                   (lcEvents)(ltExitMethod)→
+   (lcNone)→                                                       (lcNone)(ltInfo)→
+       (lcNone)→                                                     (lcNone)(ltInfo)→
+  (lcStudyChainedEvents)(ltSubEventBetweenEnterAndExitMethods)→                                            (lcStudyChainedEvents)(ltSubEventBetweenEnterAndExitMethods)→
+     .../...                                                        .../...
+     (lcNone)→                                                      (lcNone)(ltValue\@integer)→
+  (lcStudyChainedEvents)(ltSubEventBetweenEnterAndExitMethods)→                                           (lcStudyChainedEvents)(ltSubEventBetweenEnterAndExitMethods)→
+(lcNone)→                                                     (lcNone)(ltValue\@boolean)→
+.../...
+
+
+
+<u>step ❷:</u>
+         |                                                            |
+There's a distibution of groups of                            ActiveClasses acts like a wall: if the *How* to forward isn't present
+method, each group specialized in                             in the ActiveClasses's "set Of *How*" type, then, the event doesn't go further.
+*How* to forward an event type towards its channel's target.  Let say that ActiveClasses = [ltEnterMethod, ltExitMethod, ltValue]:
+.../...                                                               ↺|||
+(lcEvents)(ltEnterMethod)→                                              (lcEvents)(ltEnterMethod)→
+.../...                                                               ↺|||
+(lcEvents)(ltExitMethod)→                                               (lcEvents)(ltExitMethod)→
+.../...                                                               ↺|||
+(lcStudyChainedEvents)(ltSubEventBetweenEnterAndExitMethods)→         ↺|||
+.../...                                                               ↺|||
+  (lcNone)(ltValue\@integer)→                                           (lcNone)(ltValue\@integer)→
+  (lcStudyChainedEvents)(ltSubEventBetweenEnterAndExitMethods)→       ↺|||
+(lcNone)(ltValue\@boolean)→                                             (lcNone)(ltValue\@boolean)→
+.../...                                                               ↺|||
+.../...                                                               ↺|||
+
+
+
+<u>step ❸:</u>
+|                                                                                                               |
+ActiveClasses acts like a wall: if the *How* to forward isn't present                               For each specialized Channel leading
+in the ActiveClasses's "Set Of *How*" type, then, the event doesn't go further.                     to a display medium (TMemo □, TFileText ○,TLogTreeView ▶)
+Let say that ActiveClasses = [ltEnterMethod, ltExitMethod, ltValue]:                                will receive the msg and display it.
+|
+(lcEvents)(ltEnterMethod)→                                                                                    ○ + □
+|
+(lcEvents)(ltExitMethod)→                                                                                       □
+|
+|   .../...
+|
+(lcNone)(ltValue\@integer)→                                                                                    ○
+|
+(lcNone)(ltValue\@boolean)→                                                                                    ○ + ▶
+.../...
+</pre></p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TLogger</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MultiLog.TLogger.html#FMaxStackCount">FMaxStackCount</a></b>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MultiLog.TLogger.html#FChannels">FChannels</a></b>: <a  href="MultiLog.TChannelList.html">TChannelList</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MultiLog.TLogger.html#FLogStack">FLogStack</a></b>: TStrings;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MultiLog.TLogger.html#FCheckList">FCheckList</a></b>: TStringList;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MultiLog.TLogger.html#FCounterList">FCounterList</a></b>: TStringList;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MultiLog.TLogger.html#FOnCustomData">FOnCustomData</a></b>: <a  href="MultiLog.html#TCustomDataNotify">TCustomDataNotify</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MultiLog.TLogger.html#FLastActiveClasses">FLastActiveClasses</a></b>: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MultiLog.TLogger.html#FWhyThisMsg">FWhyThisMsg</a></b>: <a  href="MultiLog.html#TGroupOfWhyLogMsg">TGroupOfWhyLogMsg</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="MultiLog.TLogger.html#FThreadSafe">FThreadSafe</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>class var <b><a  href="MultiLog.TLogger.html#FDefaultChannels">FDefaultChannels</a></b>: <a  href="MultiLog.TChannelList.html">TChannelList</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a></b>: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a></b>: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#GetCallStack">GetCallStack</a></b>(AStream:TStream);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SetEnabled">SetEnabled</a></b>(AValue: Boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>class function <b><a  href="MultiLog.TLogger.html#GetDefaultChannels">GetDefaultChannels</a></b>: <a  href="MultiLog.TChannelList.html">TChannelList</a>; static;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="MultiLog.TLogger.html#GetEnabled">GetEnabled</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SetMaxStackCount">SetMaxStackCount</a></b>(const AValue: Integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SetThreadSafe">SetThreadSafe</a></b>(AValue: Boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendStream">SendStream</a></b>(AMsgType: Integer; const AText: String; AStream: TStream);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendBuffer">SendBuffer</a></b>(AMsgType: Integer; const AText: String; var Buffer; Count: LongWord);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="MultiLog.TLogger.html#Create">Create</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="MultiLog.TLogger.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="MultiLog.TLogger.html#CalledBy">CalledBy</a></b>(const AMethodName: String): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Clear">Clear</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="MultiLog.TLogger.html#RectToStr">RectToStr</a></b>(const ARect: TRect): String;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="MultiLog.TLogger.html#PointToStr">PointToStr</a></b>(const APoint: TPoint): String;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText: String); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText: String; Args: array of const); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Args: array of const); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText, AValue: String); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText,AValue: String); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText: String; AValue: Integer); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Integer); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText: String; AValue: Cardinal); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Cardinal); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText: String; AValue: Double); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Double); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText: String; AValue: Int64); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Int64); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText: String; AValue: QWord); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: QWord); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText: String; AValue: Boolean); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Boolean); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText: String; const ARect: TRect); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; const ARect: TRect); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText: String; const APoint: TPoint); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; const APoint: TPoint); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText: String; AStrList: TStrings); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AStrList: TStrings); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(const AText: String; AObject: TObject); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Send">Send</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AObject: TObject); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendPointer">SendPointer</a></b>(const AText: String; APointer: Pointer); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendPointer">SendPointer</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; APointer: Pointer); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendCallStack">SendCallStack</a></b>(const AText: String); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendCallStack">SendCallStack</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendException">SendException</a></b>(const AText: String; AException: Exception); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendException">SendException</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AException: Exception); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="MultiLog.TLogger.html#GetExceptionDescriptionFields">GetExceptionDescriptionFields</a></b>(AException: Exception): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendHeapInfo">SendHeapInfo</a></b>(const AText: String); overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendHeapInfo">SendHeapInfo</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendMemory">SendMemory</a></b>(const AText: String; Address: Pointer; Size: LongWord; Offset: Integer = 0); overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendMemory">SendMemory</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Address: Pointer; Size: LongWord; Offset: Integer = 0); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendIf">SendIf</a></b>(const AText: String; Expression: Boolean); overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendIf">SendIf</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Expression: Boolean); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendIf">SendIf</a></b>(const AText: String; Expression, IsTrue: Boolean); overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendIf">SendIf</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Expression, IsTrue: Boolean); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendWarning">SendWarning</a></b>(const AText: String); overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendWarning">SendWarning</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendError">SendError</a></b>(const AText: String); overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendError">SendError</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendCustomData">SendCustomData</a></b>(const AText: String; Data: Pointer); overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendCustomData">SendCustomData</a></b>(const AText: String; Data: Pointer; CustomDataFunction: <a  href="MultiLog.html#TCustomDataNotify">TCustomDataNotify</a>); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendCustomData">SendCustomData</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Data: Pointer; CustomDataFunction: <a  href="MultiLog.html#TCustomDataNotify">TCustomDataNotify</a>); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendCustomData">SendCustomData</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Data: Pointer); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendCustomData">SendCustomData</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Data: Pointer; CustomDataFunction: <a  href="MultiLog.html#TCustomDataNotifyStatic">TCustomDataNotifyStatic</a>); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SendCustomData">SendCustomData</a></b>(const AText: String; Data: Pointer; CustomDataFunction: <a  href="MultiLog.html#TCustomDataNotifyStatic">TCustomDataNotifyStatic</a>); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#AddCheckPoint">AddCheckPoint</a></b>; overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#AddCheckPoint">AddCheckPoint</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#AddCheckPoint">AddCheckPoint</a></b>(const CheckName: String); overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#AddCheckPoint">AddCheckPoint</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const CheckName: String); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#IncCounter">IncCounter</a></b>(const CounterName: String); overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#IncCounter">IncCounter</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const CounterName: String); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#DecCounter">DecCounter</a></b>(const CounterName: String); overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#DecCounter">DecCounter</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const CounterName: String); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#ResetCounter">ResetCounter</a></b>(const CounterName: String); overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#ResetCounter">ResetCounter</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const CounterName: String); overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="MultiLog.TLogger.html#GetCounter">GetCounter</a></b>(const CounterName: String): Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#ResetCheckPoint">ResetCheckPoint</a></b>; overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#ResetCheckPoint">ResetCheckPoint</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#ResetCheckPoint">ResetCheckPoint</a></b>(const CheckName: String); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#ResetCheckPoint">ResetCheckPoint</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>;const CheckName: String); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#EnterMethod">EnterMethod</a></b>(const AMethodName: String; const AMessage: String = ''); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#EnterMethod">EnterMethod</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AMethodName: String; const AMessage: String = ''); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#EnterMethod">EnterMethod</a></b>(Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#EnterMethod">EnterMethod</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#ExitMethod">ExitMethod</a></b>(const AMethodName: String; const AMessage: String = ''); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#ExitMethod">ExitMethod</a></b>(Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#ExitMethod">ExitMethod</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AMethodName: String; const AMessage: String = ''); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#ExitMethod">ExitMethod</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Watch">Watch</a></b>(const AText, AValue: String); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Watch">Watch</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText,AValue: String); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Watch">Watch</a></b>(const AText: String; AValue: Integer); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Watch">Watch</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Integer); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Watch">Watch</a></b>(const AText: String; AValue: Cardinal); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Watch">Watch</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Cardinal); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Watch">Watch</a></b>(const AText: String; AValue: Double); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Watch">Watch</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Double); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Watch">Watch</a></b>(const AText: String; AValue: Boolean); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#Watch">Watch</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Boolean); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SubEventBetweenEnterAndExitMethods">SubEventBetweenEnterAndExitMethods</a></b>(const AText: String); overload; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="MultiLog.TLogger.html#SubEventMethodBetweenEnterAndExitMethods">SubEventMethodBetweenEnterAndExitMethods</a></b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String); overload;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class property <b><a  href="MultiLog.TLogger.html#DefaultChannels">DefaultChannels</a></b>: <a  href="MultiLog.TChannelList.html">TChannelList</a> read <a  href="MultiLog.TLogger.html#GetDefaultChannels">GetDefaultChannels</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="MultiLog.TLogger.html#Enabled">Enabled</a></b>: Boolean read <a  href="MultiLog.TLogger.html#GetEnabled">GetEnabled</a> write <a  href="MultiLog.TLogger.html#SetEnabled">SetEnabled</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="MultiLog.TLogger.html#Channels">Channels</a></b>: <a  href="MultiLog.TChannelList.html">TChannelList</a> read <a  href="MultiLog.TLogger.html#FChannels">FChannels</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="MultiLog.TLogger.html#LogStack">LogStack</a></b>: TStrings read <a  href="MultiLog.TLogger.html#FLogStack">FLogStack</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="MultiLog.TLogger.html#MaxStackCount">MaxStackCount</a></b>: Integer read <a  href="MultiLog.TLogger.html#FMaxStackCount">FMaxStackCount</a> write <a  href="MultiLog.TLogger.html#SetMaxStackCount">SetMaxStackCount</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="MultiLog.TLogger.html#OnCustomData">OnCustomData</a></b>: <a  href="MultiLog.html#TCustomDataNotify">TCustomDataNotify</a> read <a  href="MultiLog.TLogger.html#FOnCustomData">FOnCustomData</a> write <a  href="MultiLog.TLogger.html#FOnCustomData">FOnCustomData</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="MultiLog.TLogger.html#ThreadSafe">ThreadSafe</a></b>: Boolean read <a  href="MultiLog.TLogger.html#FThreadSafe">FThreadSafe</a> write <a  href="MultiLog.TLogger.html#SetThreadSafe">SetThreadSafe</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="MultiLog.TLogger.html#WhyThisMsg">WhyThisMsg</a></b>: <a  href="MultiLog.html#TGroupOfWhyLogMsg">TGroupOfWhyLogMsg</a> read <a  href="MultiLog.TLogger.html#FWhyThisMsg">FWhyThisMsg</a> write <a  href="MultiLog.TLogger.html#FWhyThisMsg">FWhyThisMsg</a> default <a  href="MultiLog.html#lcNone">lcNone</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FMaxStackCount"></span><code><b>FMaxStackCount</b>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FChannels"></span><code><b>FChannels</b>: <a  href="MultiLog.TChannelList.html">TChannelList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FLogStack"></span><code><b>FLogStack</b>: TStrings;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FCheckList"></span><code><b>FCheckList</b>: TStringList;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FCounterList"></span><code><b>FCounterList</b>: TStringList;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FOnCustomData"></span><code><b>FOnCustomData</b>: <a  href="MultiLog.html#TCustomDataNotify">TCustomDataNotify</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FLastActiveClasses"></span><code><b>FLastActiveClasses</b>: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FWhyThisMsg"></span><code><b>FWhyThisMsg</b>: <a  href="MultiLog.html#TGroupOfWhyLogMsg">TGroupOfWhyLogMsg</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FThreadSafe"></span><code><b>FThreadSafe</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FDefaultChannels"></span><code>class var <b>FDefaultChannels</b>: <a  href="MultiLog.TChannelList.html">TChannelList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ActiveClasses"></span><code><b>ActiveClasses</b>: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+public field to allow use of include/exclude functions = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] =&tilde; active which can be adjusted contextually in the calling program...</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DefaultClasses"></span><code><b>DefaultClasses</b>: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+public field to allow use of include/exclude functions = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] =&tilde; ...&quot;pass-filter&quot;'s set, blocking or not the logging.</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="GetCallStack"></span><code>procedure <b>GetCallStack</b>(AStream:TStream);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="SetEnabled"></span><code>procedure <b>SetEnabled</b>(AValue: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="GetDefaultChannels"></span><code>class function <b>GetDefaultChannels</b>: <a  href="MultiLog.TChannelList.html">TChannelList</a>; static;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="GetEnabled"></span><code>function <b>GetEnabled</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="SetMaxStackCount"></span><code>procedure <b>SetMaxStackCount</b>(const AValue: Integer);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="SetThreadSafe"></span><code>procedure <b>SetThreadSafe</b>(AValue: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SendStream"></span><code>procedure <b>SendStream</b>(AMsgType: Integer; const AText: String; AStream: TStream);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="SendBuffer"></span><code>procedure <b>SendBuffer</b>(AMsgType: Integer; const AText: String; var Buffer; Count: LongWord);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <b>Create</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="CalledBy"></span><code>function <b>CalledBy</b>(const AMethodName: String): Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Clear"></span><code>procedure <b>Clear</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RectToStr"></span><code>function <b>RectToStr</b>(const ARect: TRect): String;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="PointToStr"></span><code>function <b>PointToStr</b>(const APoint: TPoint): String;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing &quot;Why this logging&quot; = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltInfo">ltInfo</a>'s logging method.  .</p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AText</dt>
+<dd>is a string wich is the Msg to <a class="normal" href="MultiLog.TLogger.html#Send">send</a> via the TxxxChannel(s) towards their respectful display \ record media</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">nil</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltInfo">ltInfo</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText: String; Args: array of const); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltInfo">ltInfo</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Args: array of const); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltInfo">ltInfo</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText, AValue: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText,AValue: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText: String; AValue: Integer); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Integer); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText: String; AValue: Cardinal); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Cardinal); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText: String; AValue: Double); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Double); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText: String; AValue: Int64); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Int64); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText: String; AValue: QWord); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: QWord); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText: String; AValue: Boolean); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Boolean); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText: String; const ARect: TRect); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; const ARect: TRect); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText: String; const APoint: TPoint); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; const APoint: TPoint); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText: String; AStrList: TStrings); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltStrings">ltStrings</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AStrList: TStrings); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(const AText: String; AObject: TObject); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltObject">ltObject</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Send"></span><code>procedure <b>Send</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AObject: TObject); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltObject">ltObject</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendPointer"></span><code>procedure <b>SendPointer</b>(const AText: String; APointer: Pointer); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendPointer"></span><code>procedure <b>SendPointer</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; APointer: Pointer); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltValue">ltValue</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendCallStack"></span><code>procedure <b>SendCallStack</b>(const AText: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCallStack">ltCallStack</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendCallStack"></span><code>procedure <b>SendCallStack</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltCallStack">ltCallStack</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendException"></span><code>procedure <b>SendException</b>(const AText: String; AException: Exception); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltException">ltException</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendException"></span><code>procedure <b>SendException</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AException: Exception); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltException">ltException</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetExceptionDescriptionFields"></span><code>function <b>GetExceptionDescriptionFields</b>(AException: Exception): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: check Exception hierarchy (ultimate ancestor=EDatabaseError || EStreamError || ...), to grab its specific fields into a dumped string.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendHeapInfo"></span><code>procedure <b>SendHeapInfo</b>(const AText: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltHeapInfo">ltHeapInfo</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendHeapInfo"></span><code>procedure <b>SendHeapInfo</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltHeapInfo">ltHeapInfo</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendMemory"></span><code>procedure <b>SendMemory</b>(const AText: String; Address: Pointer; Size: LongWord; Offset: Integer = 0); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltMemory">ltMemory</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendMemory"></span><code>procedure <b>SendMemory</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Address: Pointer; Size: LongWord; Offset: Integer = 0); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltMemory">ltMemory</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendIf"></span><code>procedure <b>SendIf</b>(const AText: String; Expression: Boolean); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltConditional">ltConditional</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendIf"></span><code>procedure <b>SendIf</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Expression: Boolean); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; this <a class="normal" href="MultiLog.html#ltConditional">ltConditional</a> method with overloaded specific parameter Classes, that allows us to pass or not [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...], to verify an existing intersection with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendIf"></span><code>procedure <b>SendIf</b>(const AText: String; Expression, IsTrue: Boolean); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltConditional">ltConditional</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendIf"></span><code>procedure <b>SendIf</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Expression, IsTrue: Boolean); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltConditional">ltConditional</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendWarning"></span><code>procedure <b>SendWarning</b>(const AText: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltWarning">ltWarning</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendWarning"></span><code>procedure <b>SendWarning</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltWarning">ltWarning</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendError"></span><code>procedure <b>SendError</b>(const AText: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltError">ltError</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendError"></span><code>procedure <b>SendError</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltError">ltError</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendCustomData"></span><code>procedure <b>SendCustomData</b>(const AText: String; Data: Pointer); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCustomData">ltCustomData</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendCustomData"></span><code>procedure <b>SendCustomData</b>(const AText: String; Data: Pointer; CustomDataFunction: <a  href="MultiLog.html#TCustomDataNotify">TCustomDataNotify</a>); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCustomData">ltCustomData</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendCustomData"></span><code>procedure <b>SendCustomData</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Data: Pointer; CustomDataFunction: <a  href="MultiLog.html#TCustomDataNotify">TCustomDataNotify</a>); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltCustomData">ltCustomData</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendCustomData"></span><code>procedure <b>SendCustomData</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Data: Pointer); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; this <a class="normal" href="MultiLog.html#ltCustomData">ltCustomData</a> method with overloaded specific parameter Classes, that allows us to pass or not [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...], to verify an existing intersection with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendCustomData"></span><code>procedure <b>SendCustomData</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; Data: Pointer; CustomDataFunction: <a  href="MultiLog.html#TCustomDataNotifyStatic">TCustomDataNotifyStatic</a>); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltCustomData">ltCustomData</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SendCustomData"></span><code>procedure <b>SendCustomData</b>(const AText: String; Data: Pointer; CustomDataFunction: <a  href="MultiLog.html#TCustomDataNotifyStatic">TCustomDataNotifyStatic</a>); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCustomData">ltCustomData</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddCheckPoint"></span><code>procedure <b>AddCheckPoint</b>; overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCheckpoint">ltCheckpoint</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddCheckPoint"></span><code>procedure <b>AddCheckPoint</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; This <a class="normal" href="MultiLog.html#ltCheckpoint">ltCheckpoint</a> method with overloaded specific parameter Classes, that allows us to pass or not [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...], to verify an existing intersection with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddCheckPoint"></span><code>procedure <b>AddCheckPoint</b>(const CheckName: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCheckpoint">ltCheckpoint</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="AddCheckPoint"></span><code>procedure <b>AddCheckPoint</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const CheckName: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltCheckpoint">ltCheckpoint</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IncCounter"></span><code>procedure <b>IncCounter</b>(const CounterName: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCounter">ltCounter</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IncCounter"></span><code>procedure <b>IncCounter</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const CounterName: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltCounter">ltCounter</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DecCounter"></span><code>procedure <b>DecCounter</b>(const CounterName: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCounter">ltCounter</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DecCounter"></span><code>procedure <b>DecCounter</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const CounterName: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltCounter">ltCounter</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ResetCounter"></span><code>procedure <b>ResetCounter</b>(const CounterName: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCounter">ltCounter</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ResetCounter"></span><code>procedure <b>ResetCounter</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const CounterName: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltCounter">ltCounter</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="GetCounter"></span><code>function <b>GetCounter</b>(const CounterName: String): Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ResetCheckPoint"></span><code>procedure <b>ResetCheckPoint</b>; overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCheckpoint">ltCheckpoint</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ResetCheckPoint"></span><code>procedure <b>ResetCheckPoint</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; This <a class="normal" href="MultiLog.html#ltCheckpoint">ltCheckpoint</a> method with overloaded specific parameter Classes, that allows us to pass or not [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...], to verify an existing intersection with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ResetCheckPoint"></span><code>procedure <b>ResetCheckPoint</b>(const CheckName: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCheckpoint">ltCheckpoint</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ResetCheckPoint"></span><code>procedure <b>ResetCheckPoint</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>;const CheckName: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltCheckpoint">ltCheckpoint</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EnterMethod"></span><code>procedure <b>EnterMethod</b>(const AMethodName: String; const AMessage: String = ''); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW ltEntertMethod's logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EnterMethod"></span><code>procedure <b>EnterMethod</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AMethodName: String; const AMessage: String = ''); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; This ltEntertMethod method with overloaded specific parameter Classes, that allows us to pass or not [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...], to verify an existing intersection with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EnterMethod"></span><code>procedure <b>EnterMethod</b>(Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW ltEntertMethod's logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="EnterMethod"></span><code>procedure <b>EnterMethod</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltEnterMethod">ltEnterMethod</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ExitMethod"></span><code>procedure <b>ExitMethod</b>(const AMethodName: String; const AMessage: String = ''); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltExitMethod">ltExitMethod</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ExitMethod"></span><code>procedure <b>ExitMethod</b>(Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltExitMethod">ltExitMethod</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ExitMethod"></span><code>procedure <b>ExitMethod</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AMethodName: String; const AMessage: String = ''); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; This <a class="normal" href="MultiLog.html#ltExitMethod">ltExitMethod</a> method with overloaded specific parameter Classes, that allows us to pass or not [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...], to verify an existing intersection with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ExitMethod"></span><code>procedure <b>ExitMethod</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; Sender: TObject; const AMethodName: String; const AMessage: String = ''); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltExitMethod">ltExitMethod</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Watch"></span><code>procedure <b>Watch</b>(const AText, AValue: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltWatch">ltWatch</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Watch"></span><code>procedure <b>Watch</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText,AValue: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltWatch">ltWatch</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Watch"></span><code>procedure <b>Watch</b>(const AText: String; AValue: Integer); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltWatch">ltWatch</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Watch"></span><code>procedure <b>Watch</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Integer); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltWatch">ltWatch</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Watch"></span><code>procedure <b>Watch</b>(const AText: String; AValue: Cardinal); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCheckpoint">ltCheckpoint</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Watch"></span><code>procedure <b>Watch</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Cardinal); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltWatch">ltWatch</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Watch"></span><code>procedure <b>Watch</b>(const AText: String; AValue: Double); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCheckpoint">ltCheckpoint</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Watch"></span><code>procedure <b>Watch</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Double); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltWatch">ltWatch</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Watch"></span><code>procedure <b>Watch</b>(const AText: String; AValue: Boolean); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltCheckpoint">ltCheckpoint</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Watch"></span><code>procedure <b>Watch</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String; AValue: Boolean); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltWatch">ltWatch</a>'s method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SubEventBetweenEnterAndExitMethods"></span><code>procedure <b>SubEventBetweenEnterAndExitMethods</b>(const AText: String); overload; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: logging; using public <a class="normal" href="MultiLog.TLogger.html#DefaultClasses">DefaultClasses</a> containing Why this logging = [<a class="normal" href="MultiLog.html#lcDebug">lcDebug</a>, ...] which must intersect with <a class="normal" href="MultiLog.TLogger.html#ActiveClasses">ActiveClasses</a>, to pass this WHICH\HOW <a class="normal" href="MultiLog.html#ltInfo">ltInfo</a>'s logging method.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SubEventMethodBetweenEnterAndExitMethods"></span><code>procedure <b>SubEventMethodBetweenEnterAndExitMethods</b>(Classes: <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>; const AText: String); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: whe log with a <a class="normal" href="MultiLog.html#ltSubEventBetweenEnterAndExitMethods">ltSubEventBetweenEnterAndExitMethods</a>'s method.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="DefaultChannels"></span><code>class property <b>DefaultChannels</b>: <a  href="MultiLog.TChannelList.html">TChannelList</a> read <a  href="MultiLog.TLogger.html#GetDefaultChannels">GetDefaultChannels</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Enabled"></span><code>property <b>Enabled</b>: Boolean read <a  href="MultiLog.TLogger.html#GetEnabled">GetEnabled</a> write <a  href="MultiLog.TLogger.html#SetEnabled">SetEnabled</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Channels"></span><code>property <b>Channels</b>: <a  href="MultiLog.TChannelList.html">TChannelList</a> read <a  href="MultiLog.TLogger.html#FChannels">FChannels</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="LogStack"></span><code>property <b>LogStack</b>: TStrings read <a  href="MultiLog.TLogger.html#FLogStack">FLogStack</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="MaxStackCount"></span><code>property <b>MaxStackCount</b>: Integer read <a  href="MultiLog.TLogger.html#FMaxStackCount">FMaxStackCount</a> write <a  href="MultiLog.TLogger.html#SetMaxStackCount">SetMaxStackCount</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="OnCustomData"></span><code>property <b>OnCustomData</b>: <a  href="MultiLog.html#TCustomDataNotify">TCustomDataNotify</a> read <a  href="MultiLog.TLogger.html#FOnCustomData">FOnCustomData</a> write <a  href="MultiLog.TLogger.html#FOnCustomData">FOnCustomData</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ThreadSafe"></span><code>property <b>ThreadSafe</b>: Boolean read <a  href="MultiLog.TLogger.html#FThreadSafe">FThreadSafe</a> write <a  href="MultiLog.TLogger.html#SetThreadSafe">SetThreadSafe</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="WhyThisMsg"></span><code>property <b>WhyThisMsg</b>: <a  href="MultiLog.html#TGroupOfWhyLogMsg">TGroupOfWhyLogMsg</a> read <a  href="MultiLog.TLogger.html#FWhyThisMsg">FWhyThisMsg</a> write <a  href="MultiLog.TLogger.html#FWhyThisMsg">FWhyThisMsg</a> default <a  href="MultiLog.html#lcNone">lcNone</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>
