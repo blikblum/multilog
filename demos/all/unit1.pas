@@ -5,15 +5,16 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  Buttons, ExtCtrls, StdCtrls, Spin,
-  MultiLog, MultiLogLCLHelpers, IPCChannel, LogTreeView, MemoChannel;
+  Classes, SysUtils, sqldb, LResources, Forms, Controls, Graphics, Dialogs,
+  ComCtrls, Buttons, ExtCtrls, StdCtrls, Spin, MultiLog, MultiLogLCLHelpers,
+  LogTreeView, IPCChannel, FileChannel, MemoChannel;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
+    butException1: TButton;
     butTestLog: TButton;
     butClear: TButton;
     butSubLog: TButton;
@@ -38,8 +39,11 @@ type
     butWatchInteger: TButton;
     butWarning: TButton;
     butError: TButton;
+    chkShowPrefix: TCheckBox;
     LogMemo: TMemo;
     MemoTabSheet: TTabSheet;
+    chkShowWhy: TCheckBox;
+    SQLQuery1: TSQLQuery;
     ViewersPageControl: TPageControl;
     TreeTabSheet: TTabSheet;
     TimeFormatEdit: TEdit;
@@ -62,7 +66,6 @@ type
     pageGeneral: TTabSheet;
     spinWatchInteger: TSpinEdit;
     spinFloat: TFloatSpinEdit;
-    LogTreeView1: TLogTreeView;
     Notebook1: TPageControl;
     pageWatches: TTabSheet;
     pageSpecialized: TTabSheet;
@@ -77,6 +80,7 @@ type
     procedure butClearClick(Sender: TObject);
     procedure butEnterMethodClick(Sender: TObject);
     procedure butErrorClick(Sender: TObject);
+    procedure butException1Click(Sender: TObject);
     procedure butExceptionClick(Sender: TObject);
     procedure butExitMethodClick(Sender: TObject);
     procedure butFloatClick(Sender: TObject);
@@ -92,7 +96,10 @@ type
     procedure butWarningClick(Sender: TObject);
     procedure butWatchIntegerClick(Sender: TObject);
     procedure butWatchStringClick(Sender: TObject);
+    procedure chkShowPrefixChange(Sender: TObject);
+    procedure chkShowWhyChange(Sender: TObject);
     procedure ObjectClick(Sender: TObject);
+    procedure pageGeneralMouseEnter(Sender: TObject);
     procedure ShowTimeCheckBoxChange(Sender: TObject);
     procedure SubLogClick(Sender: TObject);
     procedure TestLogClick(Sender: TObject);
@@ -102,7 +109,21 @@ type
   private
     { private declarations }
     FMemoChannel: TMemoChannel;
+    FoLogTreeView: TLogTreeView;
+    FbShowWhy: Boolean;
+    //new fake event's triggers (procedures of objects)
+    FOnDoSmallCodePieceNum1: TNotifyEvent;
+    FOnDoSmallCodePieceNum2: TNotifyEvent;
+    FOnDoSmallCodePieceNum3: TNotifyEvent;
   public
+    procedure DoApplyCorrectShowWhy();
+    procedure DoSmallCodePieceNum1(Sender: TObject);
+    procedure DoSmallCodePieceNum2(Sender: TObject);
+    procedure DoSmallCodePieceNum3(Sender: TObject);
+	  //new fake events managers's properties
+    property OnDoSmallCodePieceNum1: TNotifyEvent read FOnDoSmallCodePieceNum1 write FOnDoSmallCodePieceNum1;
+    property OnDoSmallCodePieceNum2: TNotifyEvent read FOnDoSmallCodePieceNum1 write FOnDoSmallCodePieceNum1;
+    property OnDoSmallCodePieceNum3: TNotifyEvent read FOnDoSmallCodePieceNum1 write FOnDoSmallCodePieceNum1;
     { public declarations }
   end; 
 
@@ -116,9 +137,20 @@ implementation
 { TForm1 }
 
 procedure TForm1.FormCreate(Sender: TObject);
+var
+  sPathLogAppli: string;
+  ieChannelOptions: TFileChannelOptions;
+  bWantSpecificFileForSQLstatements: Boolean;
 begin
-  // TLogTreeView is dynamically created, for those who haven't installed the package and then cannot drop this component from the palette, 
-  // to compile this project (+ added distribution of groups of why we log).
+  Notebook1.ActivePage:= pageGeneral;
+  ViewersPageControl.ActivePage:= TreeTabSheet;
+
+  //DoSmallCodePieceNum1, .. DoSmallCodePieceNum3 == fake events, to illustrate their indented registration inside the log file.
+  Self.OnDoSmallCodePieceNum1:= @DoSmallCodePieceNum1;
+  Self.OnDoSmallCodePieceNum2:= @DoSmallCodePieceNum2;
+  Self.OnDoSmallCodePieceNum3:= @DoSmallCodePieceNum3;
+
+  //dynamically created for those who haven't installed the package, and cannot drop this component from the palette.
   FoLogTreeView:= TLogTreeView.Create(Self);
   with FoLogTreeView do begin
     Parent:= TreeTabSheet;
@@ -142,9 +174,21 @@ begin
   begin
     Channels.Add(FoLogTreeView.Channel);
     Channels.Add(FMemoChannel);
-    Channels.Add(TFileChannel.Create('coucou.log'));
-    Channels.Add(TIPCChannel.Create);
+		sPathLogAppli:= Application.Location + 'Log.txt';
+    ieChannelOptions:= [FileChannel.fcoShowHeader, FileChannel.fcoShowTime]; bWantSpecificFileForSQLstatements:= True;
+    Channels.Add( TFileChannel.Create(sPathLogAppli, ieChannelOptions, bWantSpecificFileForSQLstatements) );
+    Channels.Add( TIPCChannel.Create );
     DefaultClasses := [lcDebug];
+  end;
+end;
+
+procedure TForm1.chkShowPrefixChange(Sender: TObject);
+var
+  i: Integer;
+begin
+  for i := 0 to Pred(Logger.Channels.Count) do begin
+		if (Logger.Channels.Items[i].ClassType = TFileChannel) then
+			TFileChannel(Logger.Channels[i]).ShowPrefix:= true;
   end;
 end;
 
@@ -170,7 +214,7 @@ begin
     SendError('A Error Message');
     SubLogClick(butSubLog);
     DefaultClasses := [lcWarning];
-    ActiveClasses:=[lcDebug,lcInfo];
+    ActiveClasses:= [lcDebug,lcInfo];
     Send('This Text Should NOT be logged');
     Send([lcDebug],'This Text Should be logged');
     ActiveClasses:=[];
@@ -201,8 +245,24 @@ end;
 
 procedure TForm1.butErrorClick(Sender: TObject);
 begin
-  if EditError.Text <> '' then
+  if EditWarning.Text <> '' then begin
+	  Logger.WhyThisMsg:= lcError; DoApplyCorrectShowWhy();
     Logger.SendError(EditError.Text);
+    Logger.WhyThisMsg:= lcNone;
+	end;
+end;
+
+procedure TForm1.butException1Click(Sender: TObject);
+begin
+  try
+  	SQLQuery1.Open;
+  except
+    On E: Exception do begin
+      Logger.WhyThisMsg:= lcError; DoApplyCorrectShowWhy();
+      Logger.SendException('An S.Q.L. Exception example', E);
+      Logger.WhyThisMsg:= lcNone;
+    end;
+  end
 end;
 
 procedure TForm1.butExceptionClick(Sender: TObject);
@@ -212,7 +272,7 @@ begin
   except
     On E: Exception do begin
       Logger.WhyThisMsg:= lcError; DoApplyCorrectShowWhy();
-      Logger.SendException('An Exception example',E);
+      Logger.SendException('A "basic" Exception example',E);
       Logger.WhyThisMsg:= lcNone;
     end;
   end
@@ -342,8 +402,11 @@ end;
 
 procedure TForm1.butWarningClick(Sender: TObject);
 begin
-  if EditWarning.Text <> '' then
+  if EditWarning.Text <> '' then begin
+	  Logger.WhyThisMsg:= lcWarning; DoApplyCorrectShowWhy();
     Logger.SendWarning(EditWarning.Text);
+    Logger.WhyThisMsg:= lcNone;
+	end;
 end;
 
 procedure TForm1.butWatchIntegerClick(Sender: TObject);
@@ -367,11 +430,17 @@ begin
 		Logger.WhyThisMsg:= lcNone;
 end;
 
+
 procedure TForm1.ObjectClick(Sender: TObject);
 begin
-  Logger.WhyThisMsg:= lcTrackSQLissue; DoApplyCorrectShowWhy();
+  Logger.WhyThisMsg:= lcStudyChainedEvents; DoApplyCorrectShowWhy();
   Logger.Send('An TObject Example',Sender);
   Logger.WhyThisMsg:= lcNone;
+end;
+
+procedure TForm1.pageGeneralMouseEnter(Sender: TObject);
+begin
+
 end;
 
 procedure TForm1.ShowTimeCheckBoxChange(Sender: TObject);
@@ -379,25 +448,58 @@ begin
   FoLogTreeView.ShowTime := ShowTimeCheckBox.Checked;
 end;
 
+procedure TForm1.DoSmallCodePieceNum1(Sender: TObject);
+var
+	i, iFakeCalc: integer;
+begin
+  Logger.SubEventBetweenEnterAndExitMethods('>event DoSmallCodePieceNum1 + Sender=' + Sender.ClassName);   // TNotifyEvent
+  //do a stuff
+  for i:= 0 to 10 do
+  	iFakeCalc:= iFakeCalc + 1;
+  DoSmallCodePieceNum2(Sender);
+  Logger.SubEventBetweenEnterAndExitMethods('<event DoSmallCodePieceNum1 + Sender=' + Sender.ClassName);
+end;
+
+procedure TForm1.DoSmallCodePieceNum2(Sender: TObject);
+var
+	i, iFakeCalc: integer;
+begin
+  Logger.SubEventBetweenEnterAndExitMethods('>event DoSmallCodePieceNum2 + Sender=' + Sender.ClassName);
+  //do a stuff
+  for i:= i to 20 do
+  	iFakeCalc:= iFakeCalc+ 1;
+  DoSmallCodePieceNum3(Sender);
+  Logger.SubEventBetweenEnterAndExitMethods('<event DoSmallCodePieceNum2 + Sender=' + Sender.ClassName);
+end;
+
+procedure TForm1.DoSmallCodePieceNum3(Sender: TObject);
+begin
+  Logger.SubEventBetweenEnterAndExitMethods('><event DoSmallCodePieceNum3 + Sender=' + Sender.ClassName + ' (I''m the last push inside the callstack. Now, we pop from the callstack.)');
+end;
+
+
 procedure TForm1.SubLogClick(Sender: TObject);
 var
   OldClasses: set of TDebugClass;
 begin
-  with Logger do
-  begin
-    WhyThisMsg:= lcEvent; DoApplyCorrectShowWhy();
+  with Logger do begin
+    WhyThisMsg:= lcStudyChainedEvents;
     OldClasses:= ActiveClasses;
     ActiveClasses:=lcAll;
-    WhyThisMsg:= lcTrackSQLissue; DoApplyCorrectShowWhy();
+    // false sequence of called functions, emulating a chained events sequence, such as coded dbGrid.Onchange, dbNavigator.OnPost, dataSource.onChange, dataField.onValidate, dataSet.onPost, etc.
     EnterMethod(Sender,'SubLogClick');
+
+    // Playing a little with the Calls Stack
+    DoSmallCodePieceNum1(Sender);
     SendIf('Only show if called by TestLogClick', CalledBy('TestLogClick'));
     SendIf('Only show if called by SubLogClick', CalledBy('SubLogClick'));
     Send('AText inside DoIt');
-    SendWarning('AWarning');
+    SendWarning('A Warning');
     SendCallStack('CallStack example');
     Send('A String','sadjfgadsfbmsandfb');
     Send('AInteger',4957);
     Send('A Boolean',True);
+
     ExitMethod(Sender,'SubLogClick');
     ActiveClasses:=OldClasses;
     WhyThisMsg:= lcNone;
@@ -419,4 +521,4 @@ end;
 
 
 end.
-   
+
