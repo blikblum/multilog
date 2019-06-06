@@ -11,6 +11,7 @@
  *****************************************************************************
 }
 unit registermultilog;
+{§< Unit to register the TLogTreeView in the "MultiLog" palette of components.}
 
 {$Mode ObjFpc}
 {$H+}

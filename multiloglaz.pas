@@ -1,15 +1,15 @@
-{ This file was automatically created by Lazarus. Do not edit!
+{§
+	This file was automatically created by Lazarus. Do not edit!
   This source is only used to compile and install the package.
  }
-
 unit multiloglaz;
 
 {$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  MultiLog, registermultilog, LogTreeView, LCLLogger, FileChannel, IPCChannel, MultiLogLCLHelpers, 
-  OutputChannel, MemoChannel, LazarusPackageIntf;
+  MultiLog, registermultilog, LogTreeView, LCLLogger, FileChannel, IPCChannel, 
+  MultiLogLCLHelpers, outputchannel, MemoChannel, LazarusPackageIntf;
 
 implementation
 

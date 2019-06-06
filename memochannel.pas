@@ -1,13 +1,16 @@
 unit MemoChannel;
+{$REGION 'Xls: Comments section'}
+{§< Unit containing TMemoChannel contributed by Avra (Жељко Аврамовић). TMemoChannel was based on TFileChannel. @br
+@html(<span style="background-color: #ffff00"><u>TMemoChannel can be thread safe!</u></span>)
+}
+{$ENDREGION}
 
 {
   Copyright (C) 2006 Luiz Américo Pereira Câmara
 
-  TMemoChannel contributed by Avra (Жељко Аврамовић). TMemoChannel was based on TFileChannel.
-
   This library is free software; you can redistribute it and/or modify it
   under the terms of the FPC modified LGPL licence which can be found at:
-  http://wiki.lazarus.freepascal.org/FPC_modified_LGPL
+  http://wiki.lazarus.freepascal.org/FPC_modified_LGPL.
 }
 
 {$ifdef fpc}
@@ -17,7 +20,7 @@ unit MemoChannel;
 interface
 
 uses
-  {$ifndef fpc}fpccompat,{$endif} Classes, SysUtils, StdCtrls, Forms, Math, MultiLog;
+  {$ifndef fpc}fpccompat,{$endif} Classes, SysUtils, StdCtrls, Forms, Math, MultiLog, strutils;
 
 const
   MEMO_MINIMAL_NUMBER_OF_TOTAL_LINES = 200;
@@ -37,6 +40,7 @@ type
 
   TMemoChannel = class(TLogChannel)
   private
+    FMsg: TLogMessage;
     FMemo: TMemo;
     FRelativeIdent: Integer;
     FBaseIdent: Integer;
@@ -46,18 +50,28 @@ type
     FUnlimitedBuffer: Boolean;
     FRotaryBuffer: Boolean;
     FTimeFormat: String;
+    FShowWhyThisLogging: Boolean;
     FLogLinesLimit: Integer;
     FWrapper: TLogChannelWrapper;
     procedure SetLogLinesLimit(AValue: Integer);
     procedure SetShowTime(const AValue: Boolean);
     procedure UpdateIdentation;
+    {$REGION 'Xls: Comments section'}
+{§ Put log msg into queue that will be processed from the main thread - ie the application's main UI thread - after all other messages,
+ie the function returns immediately (asynchronous call), do not wait for the result, removing
+the possibility of a inter-messages deadlock in a window's queue.
+}
+{$ENDREGION}
     procedure Write(const AMsg: string);
-    procedure WriteStrings(AStream: TStream);
-    procedure WriteComponent(AStream: TStream);
+    procedure WriteStringsOfMsgDataStream();
+    procedure WriteComponentOfMsgDataStream();
   public
-    constructor Create(AMemo: TMemo; AChannelOptions: TMemoChannelOptions = [fcoShowHeader, fcoShowTime]
-      );
+    constructor Create(AMemo: TMemo; AChannelOptions: TMemoChannelOptions = [fcoShowHeader, fcoShowTime] );
     destructor Destroy; override;
+{$REGION 'Xls: Comments section'}
+{§ Called from main thread, after all other messages have been processed to allow thread safe TMemo access.
+}
+{$ENDREGION}
     procedure WriteAsyncQueue(Data: PtrInt);
     procedure Deliver(const AMsg: TLogMessage); override;
     procedure Init; override;
@@ -72,13 +86,13 @@ type
 implementation
 
 const
-  LogPrefixes: array [ltInfo..ltCounter] of string = (
+  LogPrefixes: array [ltInfo..ltSubEventBetweenEnterAndExitMethods] of string = (
     'INFO',
     'ERROR',
     'WARNING',
     'VALUE',
     '>>ENTER METHOD',
-    '<<EXIT METHOD',
+    '<<EXIT  METHOD',
     'CONDITIONAL',
     'CHECKPOINT',
     'STRINGS',
@@ -90,7 +104,17 @@ const
     'MEMORY',
     '', '', '', '', '',
     'WATCH',
-    'COUNTER');
+    'COUNTER',
+    'SUBEVENT');
+
+	QualifiersWhyMsgIsLogged: array [lcDebug..lcStudyChainedEvents] of String = (
+    'Debug',
+    'Error',
+    'Info',
+    'Warning',
+    'Event(s)',
+    '', '', '', '',
+    'StudyChainedEvents');
 
 { TMemoChannel }
 
@@ -103,6 +127,7 @@ begin
   FShowPrefix := fcoShowPrefix in AChannelOptions;
   FShowTime := fcoShowTime in AChannelOptions;
   FShowHeader := fcoShowHeader in AChannelOptions;
+  FShowWhyThisLogging:= false;
   FUnlimitedBuffer := fcoUnlimitedBuffer in AChannelOptions;
   FRotaryBuffer := fcoRotaryBuffer in AChannelOptions;
   Active := True;
@@ -124,6 +149,8 @@ begin
   LogMsgToSend^.Text := AMsg;
   Application.QueueAsyncCall(@WriteAsyncQueue, PtrInt(LogMsgToSend)); // put log msg into queue that will be processed from the main thread after all other messages
 end;
+
+
 
 procedure TMemoChannel.WriteAsyncQueue(Data: PtrInt);
 var // called from main thread after all other messages have been processed to allow thread safe TMemo access
@@ -178,32 +205,32 @@ begin
   FLogLinesLimit := Max(Abs(AValue), MEMO_MINIMAL_NUMBER_OF_TOTAL_LINES);
 end;
 
-procedure TMemoChannel.WriteStrings(AStream: TStream);
+procedure TMemoChannel.WriteStringsOfMsgDataStream();
 var
   i: integer;
 begin
-  if AStream.Size = 0 then
-    Exit;
-  with TStringList.Create do
+  if FMsg.Data.Size = 0 then Exit;	// pre-condition
+  with TStringList.Create do begin
     try
-      AStream.Position := 0;
-      LoadFromStream(AStream);
+      FMsg.Data.Position:=0;
+      LoadFromStream(FMsg.Data);
       for i := 0 to Count - 1 do
-        Write(Space(FRelativeIdent + FBaseIdent) + Strings[i]);
+       Write(Space(FRelativeIdent+FBaseIdent) + Strings[i]);
     finally
       Destroy;
     end;
+  end;
 end;
 
-procedure TMemoChannel.WriteComponent(AStream: TStream);
+procedure TMemoChannel.WriteComponentOfMsgDataStream();
 var
   TextStream: TStringStream;
 begin
   TextStream := TStringStream.Create('');
-  AStream.Seek(0, soFromBeginning);
-  ObjectBinaryToText(AStream, TextStream);
-  //todo: better handling of format
-  Write(TextStream.DataString);
+  FMsg.Data.Seek(0, soFromBeginning);
+  ObjectBinaryToText(FMsg.Data, TextStream);
+  write(TextStream.DataString);	  //todo: better handling of format
+
   TextStream.Destroy;
 end;
 
@@ -211,28 +238,40 @@ procedure TMemoChannel.Deliver(const AMsg: TLogMessage);
 var
   WholeMsg: string;
 begin
+  FMsg:= AMsg;
+  FShowWhyThisLogging:= (FMsg.WhyThisLogging <> lcNone);
   WholeMsg := '';
   //Exit method identation must be set before
-  if (AMsg.MsgType = ltExitMethod) and (FRelativeIdent >= 2) then
+  if (FMsg.MsgType = ltExitMethod) and (FRelativeIdent >= 2) then
     Dec(FRelativeIdent, 2);
 
   try
     if FShowTime then
-      WholeMsg := FormatDateTime(FTimeFormat, AMsg.MsgTime) + '   ';
+      WholeMsg := FormatDateTime(FTimeFormat, FMsg.MsgTime) + '   ';
     WholeMsg := WholeMsg + Space(FRelativeIdent);
+    //FShowPrefix can serve as qualifier for each current msg, allowing further thematic extractions
     if FShowPrefix then
-      WholeMsg := WholeMsg + (LogPrefixes[AMsg.MsgType] + ':   ');
-    Write(WholeMsg + AMsg.MsgText);
-    if AMsg.Data <> nil then
+      WholeMsg := WholeMsg + (LogPrefixes[FMsg.MsgType] + ':   ');
+    //write qualifier explaining Why this Msg (is | is not) logged?
+    if FShowWhyThisLogging then begin
+    	if ((FMsg.MsgType = ltEnterMethod) or (FMsg.MsgType = ltExitMethod)) then
+      	WholeMsg := WholeMsg + '|' + QualifiersWhyMsgIsLogged[FMsg.WhyThisLogging] + '| '  	// all on one precise visual lines for >>>ltEnterMethod .. <<<ltExitMethod
+      else
+    		WholeMsg := WholeMsg + LineEnding + '|' + QualifiersWhyMsgIsLogged[FMsg.WhyThisLogging] + '| '
+    end;
+    WholeMsg:= WholeMsg + FMsg.MsgText;
+    write(WholeMsg);
+    //if there's a TStream to write
+    if FMsg.Data <> nil then
     begin
-      case AMsg.MsgType of
-        ltStrings, ltCallStack, ltHeapInfo, ltException: WriteStrings(AMsg.Data);
-        ltObject: WriteComponent(AMsg.Data);
+      case FMsg.MsgType of
+        ltStrings, ltCallStack, ltHeapInfo, ltException, ltMemory: WriteStringsOfMsgDataStream();
+        ltObject: WriteComponentOfMsgDataStream();
       end;
     end;
   finally
     //Update enter method identation
-    if AMsg.MsgType = ltEnterMethod then
+    if (FMsg.MsgType = ltEnterMethod) then
       Inc(FRelativeIdent, 2);
   end;
 end;
