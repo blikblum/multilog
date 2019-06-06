@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>MultiLog: MultiLog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>MultiLog</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<h1 class="unit">Unit MultiLog</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section">Functions and Procedures</div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section"><a class="section" href="#PasDoc-Constants">Constants</a></div><div class="one_section"><a class="section" href="#PasDoc-Variables">Variables</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p>
+
+<b>Main unit of the Multilog logging system.</b>  <br>
+<span style="color: #4169E1;">author of MultiLog: Luiz Américo Pereira Câmara; pascalive@bol.com.br</span>  <br><br>
+
+<div style="border: solid windowtext .5pt; padding: 1.0pt 4.0pt 1.0pt 4.0pt;">
+nb1: all units are encoded with UTF-8 without BOM, using EDI "file settings\encoding\UTF-8" contextual menu.  <br>
+nb2: this HTML documentation has been made with PasDoc - program named "pasdoc_gui". The comment marker is the character "§",
+to include only comments that start with this merker, a documentation tool for the Object Pascal code:
+<a href="https://github.com/pasdoc/pasdoc/wiki">https://github.com/pasdoc/pasdoc/wiki</a> . The pasdoc_gui's configuration file,
+for those who want to update the documentation, is named "config.pds".
+</div></p>
+<span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
+<span id="PasDoc-Classes"></span><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="MultiLog.TLogMessage.html"><code>TLogMessage</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="MultiLog.TLogChannel.html"><code>TLogChannel</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="MultiLog.TChannelList.html"><code>TChannelList</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="MultiLog.TLogger.html"><code>TLogger</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="MultiLog.TLogChannelWrapper.html"><code>TLogChannelWrapper</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="MultiLog.TFixedCriticalSection.html"><code>TFixedCriticalSection</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+</table>
+<span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#TDebugClass">TDebugClass</a></b> = 0..31;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#TGroupOfWhyLogMsg">TGroupOfWhyLogMsg</a></b> = <a  href="MultiLog.html#TDebugClass">TDebugClass</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a></b> = Set of <a  href="MultiLog.html#TGroupOfWhyLogMsg">TGroupOfWhyLogMsg</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#TDebugClasses">TDebugClasses</a></b> = <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#TCustomDataNotify">TCustomDataNotify</a></b> = function (Sender: <a  href="MultiLog.TLogger.html">TLogger</a>; Data: Pointer; var DoSend: Boolean): String of Object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#TCustomDataNotifyStatic">TCustomDataNotifyStatic</a></b> = function (Sender: <a  href="MultiLog.TLogger.html">TLogger</a>; Data: Pointer; var DoSend: Boolean): String;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#TGuardian">TGuardian</a></b> = <a  href="MultiLog.TFixedCriticalSection.html">TFixedCriticalSection</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Constants"></span><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltInfo">ltInfo</a></b>    = 0;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltError">ltError</a></b>   = 1;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltWarning">ltWarning</a></b> = 2;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltValue">ltValue</a></b>   = 3;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltEnterMethod">ltEnterMethod</a></b> = 4;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltExitMethod">ltExitMethod</a></b>  = 5;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltConditional">ltConditional</a></b> = 6;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltCheckpoint">ltCheckpoint</a></b> = 7;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltStrings">ltStrings</a></b> = 8;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltCallStack">ltCallStack</a></b> = 9;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltObject">ltObject</a></b> = 10;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltException">ltException</a></b> = 11;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltBitmap">ltBitmap</a></b> = 12;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltHeapInfo">ltHeapInfo</a></b> = 13;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltMemory">ltMemory</a></b> = 14;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltCustomData">ltCustomData</a></b> = 15;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltWatch">ltWatch</a></b> = 20;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltCounter">ltCounter</a></b> = 21;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltSubEventBetweenEnterAndExitMethods">ltSubEventBetweenEnterAndExitMethods</a></b> = 22;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#ltClear">ltClear</a></b> = 100;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#lcAll">lcAll</a></b> = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#lcDebug">lcDebug</a></b> = 0;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#lcError">lcError</a></b> = 1;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#lcInfo">lcInfo</a></b> = 2;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#lcWarning">lcWarning</a></b> = 3;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#lcEvents">lcEvents</a></b> = 4;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#lcEvent">lcEvent</a></b> = 4;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#lcUser">lcUser</a></b> = 8;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#lcNone">lcNone</a></b> = 8;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="MultiLog.html#lcStudyChainedEvents">lcStudyChainedEvents</a></b> = 9;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Variables"></span><h3 class="summary">Variables</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="MultiLog.html#Logger">Logger</a></b>: <a  href="MultiLog.TLogger.html">TLogger</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TDebugClass"></span><code><b>TDebugClass</b> = 0..31;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGroupOfWhyLogMsg"></span><code><b>TGroupOfWhyLogMsg</b> = <a  href="MultiLog.html#TDebugClass">TDebugClass</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGroupsOfWhyLogMsg"></span><code><b>TGroupsOfWhyLogMsg</b> = Set of <a  href="MultiLog.html#TGroupOfWhyLogMsg">TGroupOfWhyLogMsg</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TDebugClasses"></span><code><b>TDebugClasses</b> = <a  href="MultiLog.html#TGroupsOfWhyLogMsg">TGroupsOfWhyLogMsg</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TCustomDataNotify"></span><code><b>TCustomDataNotify</b> = function (Sender: <a  href="MultiLog.TLogger.html">TLogger</a>; Data: Pointer; var DoSend: Boolean): String of Object;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TCustomDataNotifyStatic"></span><code><b>TCustomDataNotifyStatic</b> = function (Sender: <a  href="MultiLog.TLogger.html">TLogger</a>; Data: Pointer; var DoSend: Boolean): String;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TGuardian"></span><code><b>TGuardian</b> = <a  href="MultiLog.TFixedCriticalSection.html">TFixedCriticalSection</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltInfo"></span><code><b>ltInfo</b>    = 0;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+MessageTypes <br> mt (Message Type) and lt (Log Type) prefixes are used elsewhere but mt is worse because there's already mtWarning and mtInformation. <br> The existing lt do not makes confusion. <br> MessageTypes form a distribution of function's type groups: HOW \ with WHICH method's group to log.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltError"></span><code><b>ltError</b>   = 1;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltWarning"></span><code><b>ltWarning</b> = 2;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltValue"></span><code><b>ltValue</b>   = 3;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltEnterMethod"></span><code><b>ltEnterMethod</b> = 4;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltExitMethod"></span><code><b>ltExitMethod</b>  = 5;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltConditional"></span><code><b>ltConditional</b> = 6;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltCheckpoint"></span><code><b>ltCheckpoint</b> = 7;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltStrings"></span><code><b>ltStrings</b> = 8;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltCallStack"></span><code><b>ltCallStack</b> = 9;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltObject"></span><code><b>ltObject</b> = 10;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltException"></span><code><b>ltException</b> = 11;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltBitmap"></span><code><b>ltBitmap</b> = 12;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltHeapInfo"></span><code><b>ltHeapInfo</b> = 13;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltMemory"></span><code><b>ltMemory</b> = 14;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltCustomData"></span><code><b>ltCustomData</b> = 15;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltWatch"></span><code><b>ltWatch</b> = 20;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltCounter"></span><code><b>ltCounter</b> = 21;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltSubEventBetweenEnterAndExitMethods"></span><code><b>ltSubEventBetweenEnterAndExitMethods</b> = 22;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+We can use <code>ltSubEventBetweenEnterAndExitMethods</code>, to indent the Msg depending of it's level in the callstack, between EnterMethod..ExitMethod</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="ltClear"></span><code><b>ltClear</b> = 100;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="lcAll"></span><code><b>lcAll</b> = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+LogClasses of stats, convention with lc prefix. <br> It's possible to define the constants to suit any need distribution of statictics classes of WHY, msg are logged.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="lcDebug"></span><code><b>lcDebug</b> = 0;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="lcError"></span><code><b>lcError</b> = 1;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="lcInfo"></span><code><b>lcInfo</b> = 2;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="lcWarning"></span><code><b>lcWarning</b> = 3;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="lcEvents"></span><code><b>lcEvents</b> = 4;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="lcEvent"></span><code><b>lcEvent</b> = 4;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="lcUser"></span><code><b>lcUser</b> = 8;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="lcNone"></span><code><b>lcNone</b> = 8;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="lcStudyChainedEvents"></span><code><b>lcStudyChainedEvents</b> = 9;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Variables</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Logger"></span><code><b>Logger</b>: <a  href="MultiLog.TLogger.html">TLogger</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>

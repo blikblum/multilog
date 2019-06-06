@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>MultiLog: FileChannel: Class TFileChannel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.15.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<h2>MultiLog</h2><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<span id="TFileChannel"></span><h1 class="cio">Class TFileChannel</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section"><a class="section" href="#PasDoc-Fields">Fields</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="FileChannel.html">FileChannel</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TFileChannel = class(<a class="normal" href="MultiLog.TLogChannel.html">TLogChannel</a>)</code></p>
+<h2 class="description">Description</h2>
+<div class="nodescription">No description available, ancestor TLogChannel description follows</div><span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor"><a class="normal" href="MultiLog.TLogChannel.html">TLogChannel</a></li>
+<li class="thisitem">TFileChannel</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Fields"></span><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FMsg">FMsg</a></b>: <a  href="MultiLog.TLogMessage.html">TLogMessage</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FFullPathFileName">FFullPathFileName</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FFileHandle">FFileHandle</a></b>: TextFile;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FieCurrentFileLogTheme">FieCurrentFileLogTheme</a></b>: <a  href="FileChannel.html#TFileLogThemes">TFileLogThemes</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FBaseIdent">FBaseIdent</a></b>: Integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FRelativeIdent">FRelativeIdent</a></b>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FbIndentCallstackTriggeredByEntermethod">FbIndentCallstackTriggeredByEntermethod</a></b>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FiCallstackIndent">FiCallstackIndent</a></b>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FiAddressEBPcurrentFrame">FiAddressEBPcurrentFrame</a></b>: Pointer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FiLevelStack">FiLevelStack</a></b>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FShowHeader">FShowHeader</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FbShowHeaderNormalWritten">FbShowHeaderNormalWritten</a></b>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FbShowHeaderSQL_Written">FbShowHeaderSQL_Written</a></b>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FShowTime">FShowTime</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FShowPrefix">FShowPrefix</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FTimeFormat">FTimeFormat</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FpRecStatesOfLogstack">FpRecStatesOfLogstack</a></b>: <a  href="FileChannel.html#PStatesOfLogstack">PStatesOfLogstack</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FiMaxLogSize">FiMaxLogSize</a></b>: int64;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code><b><a  href="FileChannel.TFileChannel.html#FbWantSpecificFileForSQLstatements">FbWantSpecificFileForSQLstatements</a></b>: Boolean;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#SetShowTime">SetShowTime</a></b>(const AValue: Boolean);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#UpdateBaseTimeIdentation">UpdateBaseTimeIdentation</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#UpdateRelativeIndentation">UpdateRelativeIndentation</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#UpdateEBPIndentation">UpdateEBPIndentation</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="FileChannel.TFileChannel.html#GetEBPIndentation">GetEBPIndentation</a></b>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="FileChannel.TFileChannel.html#CallstackSize">CallstackSize</a></b>: int64;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="FileChannel.TFileChannel.html#GetFileLogSize">GetFileLogSize</a></b>: int64;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#WriteStringsOfMsgDataStream">WriteStringsOfMsgDataStream</a></b>();</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#WriteComponentOfMsgDataStream">WriteComponentOfMsgDataStream</a></b>();</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="FileChannel.TFileChannel.html#StreamIntoRawString">StreamIntoRawString</a></b>(): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#CheckIfNecessaryToSaveAndCreateNewFileLog">CheckIfNecessaryToSaveAndCreateNewFileLog</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#FileLogCreate">FileLogCreate</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="FileChannel.TFileChannel.html#GetTimestampFromToday">GetTimestampFromToday</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#CloseFileLog">CloseFileLog</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>function <b><a  href="FileChannel.TFileChannel.html#IsSQLwordPresentInMsg">IsSQLwordPresentInMsg</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#SetCurrentFileLogTheme">SetCurrentFileLogTheme</a></b>(ACurrentFileLogTheme: <a  href="FileChannel.html#TFileLogThemes">TFileLogThemes</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#OpenForCurrentFileLogThemeTheRightFileLog">OpenForCurrentFileLogThemeTheRightFileLog</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="FileChannel.TFileChannel.html#Create">Create</a></b>(const AFileName: String; AChannelOptions: <a  href="FileChannel.html#TFileChannelOptions">TFileChannelOptions</a> = [<a  href="FileChannel.html#fcoShowHeader">fcoShowHeader</a>, <a  href="FileChannel.html#fcoShowTime">fcoShowTime</a>]; AbWantSpecificFileForSQLstatements: boolean = false);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="FileChannel.TFileChannel.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#Clear">Clear</a></b>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#Deliver">Deliver</a></b>(const AMsg: <a  href="MultiLog.TLogMessage.html">TLogMessage</a>); override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="FileChannel.TFileChannel.html#Init">Init</a></b>; override;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>property <b><a  href="FileChannel.TFileChannel.html#PathFileName">PathFileName</a></b>: string read <a  href="FileChannel.TFileChannel.html#FFullPathFileName">FFullPathFileName</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><code>property <b><a  href="FileChannel.TFileChannel.html#CurrentFileLogTheme">CurrentFileLogTheme</a></b>: <a  href="FileChannel.html#TFileLogThemes">TFileLogThemes</a> read <a  href="FileChannel.TFileChannel.html#FieCurrentFileLogTheme">FieCurrentFileLogTheme</a> write <a  href="FileChannel.TFileChannel.html#SetCurrentFileLogTheme">SetCurrentFileLogTheme</a> default <a  href="FileChannel.html#fltLogNormal">fltLogNormal</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="FileChannel.TFileChannel.html#ShowHeader">ShowHeader</a></b>: Boolean read <a  href="FileChannel.TFileChannel.html#FShowHeader">FShowHeader</a> write <a  href="FileChannel.TFileChannel.html#FShowHeader">FShowHeader</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="FileChannel.TFileChannel.html#ShowPrefix">ShowPrefix</a></b>: Boolean read <a  href="FileChannel.TFileChannel.html#FShowPrefix">FShowPrefix</a> write <a  href="FileChannel.TFileChannel.html#FShowPrefix">FShowPrefix</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="FileChannel.TFileChannel.html#ShowTime">ShowTime</a></b>: Boolean read <a  href="FileChannel.TFileChannel.html#FShowTime">FShowTime</a> write <a  href="FileChannel.TFileChannel.html#SetShowTime">SetShowTime</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="FileChannel.TFileChannel.html#TimeFormat">TimeFormat</a></b>: String read <a  href="FileChannel.TFileChannel.html#FTimeFormat">FTimeFormat</a> write <a  href="FileChannel.TFileChannel.html#FTimeFormat">FTimeFormat</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="FileChannel.TFileChannel.html#iMaxLogSize">iMaxLogSize</a></b>: int64 read <a  href="FileChannel.TFileChannel.html#FiMaxLogSize">FiMaxLogSize</a> default 1000000;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FMsg"></span><code><b>FMsg</b>: <a  href="MultiLog.TLogMessage.html">TLogMessage</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FFullPathFileName"></span><code><b>FFullPathFileName</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+(!!!) It must be *full* path like '/home/user_1/.TheAppli/Log.txt' or 'C:\Program Files\TheAppli\Log.txt'.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FFileHandle"></span><code><b>FFileHandle</b>: TextFile;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FieCurrentFileLogTheme"></span><code><b>FieCurrentFileLogTheme</b>: <a  href="FileChannel.html#TFileLogThemes">TFileLogThemes</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FBaseIdent"></span><code><b>FBaseIdent</b>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FRelativeIdent"></span><code><b>FRelativeIdent</b>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FbIndentCallstackTriggeredByEntermethod"></span><code><b>FbIndentCallstackTriggeredByEntermethod</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FiCallstackIndent"></span><code><b>FiCallstackIndent</b>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FiAddressEBPcurrentFrame"></span><code><b>FiAddressEBPcurrentFrame</b>: Pointer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FiLevelStack"></span><code><b>FiLevelStack</b>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FShowHeader"></span><code><b>FShowHeader</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FbShowHeaderNormalWritten"></span><code><b>FbShowHeaderNormalWritten</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+is set to True when '=== Log Session Started at ' has been written one time in the log normal, at the launch of the application.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FbShowHeaderSQL_Written"></span><code><b>FbShowHeaderSQL_Written</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+is set to True when '=== Log Session Started at ' has been written one time in the log SQL, at the launch of the application.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FShowTime"></span><code><b>FShowTime</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FShowPrefix"></span><code><b>FShowPrefix</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FTimeFormat"></span><code><b>FTimeFormat</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FpRecStatesOfLogstack"></span><code><b>FpRecStatesOfLogstack</b>: <a  href="FileChannel.html#PStatesOfLogstack">PStatesOfLogstack</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FiMaxLogSize"></span><code><b>FiMaxLogSize</b>: int64;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FbWantSpecificFileForSQLstatements"></span><code><b>FbWantSpecificFileForSQLstatements</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="SetShowTime"></span><code>procedure <b>SetShowTime</b>(const AValue: Boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="UpdateBaseTimeIdentation"></span><code>procedure <b>UpdateBaseTimeIdentation</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="UpdateRelativeIndentation"></span><code>procedure <b>UpdateRelativeIndentation</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="UpdateEBPIndentation"></span><code>procedure <b>UpdateEBPIndentation</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="GetEBPIndentation"></span><code>function <b>GetEBPIndentation</b>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: <br> <u>Warning:</u> it is not used to send a Call Stack back from a crash, which you would like to indent nicely: the crashed Call stack is already recovered in multiLog. <br> <br> This is used to see the indentation of events, that have an event like <code>send|watch|</code>... coded between: <br> - the beginning of an event <code>procedure TForm1.btnPostClick(Sender: TObject); enter_METHOD_[&gt;&gt;];</code>... <br> - ...and the end of the same event <code>exit_METHOD</code>_[&lt;&lt;]). <br> Indeed, by considering only potentially codable events, such as those used for a database management, they can be encapsulated in a complex way, between the basic click of a button <code>btnPostData();</code> that can initiate the request to repaint controls, ..., format the input, ..., data transfer via a datalink, ..., data verification, ..., related calculations of calculated fields, ..., datSet Post, ... <br> In addition, many events have an onBeforEvent, onEvent and onAfterEvent. <br> <br> ==&gt; the view of the graph of the indentation of the events \ methods \... called between <code>enter_METHOD_[&gt;&gt;&gt;];</code> and <code>exit_METHOD</code>_[&lt;&lt;&lt;];), as they are &quot;pushed&quot; \ &quot;poped&quot; into the stack of calls makes it possible to understand through an indented holistic view, an event management whose inter-calls of sub-events are not understood, if they have been coded in an event called too early or too late, if an under-event has been called several times by other under-events without regard to context, etc. <br> <br> <b><u>It is therefore a means of more in-depth understanding an event programming, and therefore of helping to develop events management:</u></b> @br
+<pre>
+procedure TForm1.SubLogClick(Sender: TObject);
+begin
+|--> EnterMethod [&gt;&gt;]: Logger.EnterMethod(Sender,'SubLogClick');
+   |--> entrée event 1: Logger.SubEventBetweenEnterAndExitMethods('&gt;event DoSmallCodePieceNum2 + Sender=' + Sender.ClassName);
+      |-->
+         |-->
+      |-->
+         |-->
+            |--> Logger.SubEventBetweenEnterAndExitMethods('&gt;&lt;event DoSmallCodePieceNum6 + Sender=' + Sender.ClassName + ' (I''m the last push inside the callstack. Now, we pop from the callstack.)');
+         |-->
+      |-->
+   |--> sortie event 1: Logger.SubEventBetweenEnterAndExitMethods('&lt;event DoSmallCodePieceNum1 + Sender=' + Sender.ClassName);
+|--> ExitMethod [&lt;&lt;: ExitMethod(Sender,'SubLogClick');
+end;
+</pre>
+</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="CallstackSize"></span><code>function <b>CallstackSize</b>: int64;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="GetFileLogSize"></span><code>function <b>GetFileLogSize</b>: int64;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: returns de files'size; -1 if it doesn't exist.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="WriteStringsOfMsgDataStream"></span><code>procedure <b>WriteStringsOfMsgDataStream</b>();</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="WriteComponentOfMsgDataStream"></span><code>procedure <b>WriteComponentOfMsgDataStream</b>();</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="StreamIntoRawString"></span><code>function <b>StreamIntoRawString</b>(): string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="CheckIfNecessaryToSaveAndCreateNewFileLog"></span><code>procedure <b>CheckIfNecessaryToSaveAndCreateNewFileLog</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: check if the size is larger than the maximum allowed; in this case, the log file est saved and a new one is created and used.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="FileLogCreate"></span><code>procedure <b>FileLogCreate</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: <a class="normal" href="FileChannel.TFileChannel.html#Create">create</a> a NEW FsPathFileLog file!</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="GetTimestampFromToday"></span><code>function <b>GetTimestampFromToday</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="CloseFileLog"></span><code>procedure <b>CloseFileLog</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: close, remove all lock(s), threads's connexion(s), with FsPathFileLog.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="IsSQLwordPresentInMsg"></span><code>function <b>IsSQLwordPresentInMsg</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: ckeck if <a class="normal" href="FileChannel.TFileChannel.html#FMsg">FMsg</a> est SQL related. </p>
+<h6 class="description_section">Returns</h6>
+<p class="return">returns True, if it's a SQL-oriented message.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="SetCurrentFileLogTheme"></span><code>procedure <b>SetCurrentFileLogTheme</b>(ACurrentFileLogTheme: <a  href="FileChannel.html#TFileLogThemes">TFileLogThemes</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: set the <a class="normal" href="FileChannel.TFileChannel.html#FieCurrentFileLogTheme">FieCurrentFileLogTheme</a> property. Does not have to be public or published. Usefulness due to its side effects, nothing more.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="private.gif" alt="Private" title="Private"></a></td>
+<td class="itemcode"><span id="OpenForCurrentFileLogThemeTheRightFileLog"></span><code>procedure <b>OpenForCurrentFileLogThemeTheRightFileLog</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <b>Create</b>(const AFileName: String; AChannelOptions: <a  href="FileChannel.html#TFileChannelOptions">TFileChannelOptions</a> = [<a  href="FileChannel.html#fcoShowHeader">fcoShowHeader</a>, <a  href="FileChannel.html#fcoShowTime">fcoShowTime</a>]; AbWantSpecificFileForSQLstatements: boolean = false);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: constructor.    .</p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AFileName</dt>
+<dd>is the *full* path and the name of the logging file.</dd>
+<dt>AChannelOptions:</dt>
+<dd>it's a set of options (timestamp, Why this msg, ...) that qualifies each message written in the log file.</dd>
+<dt>AbWantSpecificFileForSQLstatements:</dt>
+<dd>=False if you want to <u>use a single log file for your whole application</u>, where you will write everything.<br> =True if you want to <u>create another SQL-oriented log file</u>, in which only the SQL Exceptions, the msq which may have their dumped content as text with a substring 'SQL' or 'sql' will be logged. It's an SQL-oriented log file named &quot;AFileName+'_SQL'+.your_possible_file_ext&quot;.</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">object instance</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Destroy"></span><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Clear"></span><code>procedure <b>Clear</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Deliver"></span><code>procedure <b>Deliver</b>(const AMsg: <a  href="MultiLog.TLogMessage.html">TLogMessage</a>); override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Init"></span><code>procedure <b>Init</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Explanations: <code>init</code>, post-constructor; <br> goal: <a class="normal" href="FileChannel.TFileChannel.html#Create">create</a> the log file(s) that will be used by the application, according to the parameters passed to the constructor.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="PathFileName"></span><code>property <b>PathFileName</b>: string read <a  href="FileChannel.TFileChannel.html#FFullPathFileName">FFullPathFileName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="protected.gif" alt="Protected" title="Protected"></a></td>
+<td class="itemcode"><span id="CurrentFileLogTheme"></span><code>property <b>CurrentFileLogTheme</b>: <a  href="FileChannel.html#TFileLogThemes">TFileLogThemes</a> read <a  href="FileChannel.TFileChannel.html#FieCurrentFileLogTheme">FieCurrentFileLogTheme</a> write <a  href="FileChannel.TFileChannel.html#SetCurrentFileLogTheme">SetCurrentFileLogTheme</a> default <a  href="FileChannel.html#fltLogNormal">fltLogNormal</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ShowHeader"></span><code>property <b>ShowHeader</b>: Boolean read <a  href="FileChannel.TFileChannel.html#FShowHeader">FShowHeader</a> write <a  href="FileChannel.TFileChannel.html#FShowHeader">FShowHeader</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ShowPrefix"></span><code>property <b>ShowPrefix</b>: Boolean read <a  href="FileChannel.TFileChannel.html#FShowPrefix">FShowPrefix</a> write <a  href="FileChannel.TFileChannel.html#FShowPrefix">FShowPrefix</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="ShowTime"></span><code>property <b>ShowTime</b>: Boolean read <a  href="FileChannel.TFileChannel.html#FShowTime">FShowTime</a> write <a  href="FileChannel.TFileChannel.html#SetShowTime">SetShowTime</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TimeFormat"></span><code>property <b>TimeFormat</b>: String read <a  href="FileChannel.TFileChannel.html#FTimeFormat">FTimeFormat</a> write <a  href="FileChannel.TFileChannel.html#FTimeFormat">FTimeFormat</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="iMaxLogSize"></span><code>property <b>iMaxLogSize</b>: int64 read <a  href="FileChannel.TFileChannel.html#FiMaxLogSize">FiMaxLogSize</a> default 1000000;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a  href="https://github.com/pasdoc/pasdoc/wiki">PasDoc 0.15.0</a>. </em>
+</span>
+</td></tr></table></body></html>
