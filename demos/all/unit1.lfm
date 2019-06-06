@@ -1,34 +1,35 @@
 object Form1: TForm1
   Left = 209
-  Height = 359
+  Height = 431
   Top = 155
-  Width = 807
+  Width = 913
   HorzScrollBar.Page = 806
   VertScrollBar.Page = 358
   Caption = 'Test Multilog'
-  ClientHeight = 359
-  ClientWidth = 807
+  ClientHeight = 431
+  ClientWidth = 913
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '1.7'
+  Visible = False
   object Notebook1: TPageControl
     Left = 0
-    Height = 359
+    Height = 431
     Top = 0
     Width = 459
-    ActivePage = pageGeneral
+    ActivePage = pageSpecialized
     Align = alLeft
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 0
     object pageGeneral: TTabSheet
       Caption = 'General'
-      ClientHeight = 331
-      ClientWidth = 451
+      ClientHeight = 400
+      ClientWidth = 455
+      OnMouseEnter = pageGeneralMouseEnter
       object butClear: TButton
         Left = 12
         Height = 27
-        Top = 292
+        Top = 314
         Width = 144
         Anchors = [akLeft, akBottom]
         BorderSpacing.InnerBorder = 4
@@ -39,8 +40,8 @@ object Form1: TForm1
       object butSubLog: TButton
         Left = 12
         Height = 27
-        Top = 224
-        Width = 128
+        Top = 260
+        Width = 172
         Anchors = [akRight, akBottom]
         BorderSpacing.InnerBorder = 4
         Caption = 'Test Sub Procedure'
@@ -50,7 +51,7 @@ object Form1: TForm1
       object butTestLog: TButton
         Left = 12
         Height = 27
-        Top = 184
+        Top = 207
         Width = 90
         Anchors = [akRight, akBottom]
         BorderSpacing.InnerBorder = 4
@@ -60,7 +61,7 @@ object Form1: TForm1
       end
       object EditInfo: TEdit
         Left = 108
-        Height = 23
+        Height = 27
         Top = 30
         Width = 152
         TabOrder = 3
@@ -98,7 +99,7 @@ object Form1: TForm1
       end
       object EditWarning: TEdit
         Left = 108
-        Height = 23
+        Height = 27
         Top = 75
         Width = 152
         TabOrder = 7
@@ -106,7 +107,7 @@ object Form1: TForm1
       end
       object EditError: TEdit
         Left = 108
-        Height = 23
+        Height = 27
         Top = 122
         Width = 152
         TabOrder = 8
@@ -115,11 +116,11 @@ object Form1: TForm1
     end
     object pageVariables: TTabSheet
       Caption = 'Variables'
-      ClientHeight = 331
-      ClientWidth = 451
+      ClientHeight = 400
+      ClientWidth = 455
       object editString: TEdit
         Left = 100
-        Height = 23
+        Height = 27
         Top = 30
         Width = 142
         TabOrder = 0
@@ -166,16 +167,16 @@ object Form1: TForm1
       end
       object spinInteger: TSpinEdit
         Left = 100
-        Height = 23
+        Height = 27
         Top = 85
         Width = 50
         TabOrder = 5
       end
       object spinFloat: TFloatSpinEdit
         Left = 100
-        Height = 23
+        Height = 27
         Top = 141
-        Width = 50
+        Width = 61
         Increment = 1
         MaxValue = 100
         MinValue = 0
@@ -184,10 +185,10 @@ object Form1: TForm1
       end
       object comboBoolean: TComboBox
         Left = 100
-        Height = 23
+        Height = 27
         Top = 190
         Width = 100
-        ItemHeight = 15
+        ItemHeight = 0
         ItemIndex = 0
         Items.Strings = (
           'False'
@@ -217,13 +218,13 @@ object Form1: TForm1
     end
     object pageSpecialized: TTabSheet
       Caption = 'Specialized Info'
-      ClientHeight = 331
-      ClientWidth = 451
+      ClientHeight = 400
+      ClientWidth = 455
       object butCallStack: TButton
         Left = 35
         Height = 25
         Top = 37
-        Width = 90
+        Width = 110
         BorderSpacing.InnerBorder = 4
         Caption = 'Call Stack'
         OnClick = butCallStackClick
@@ -232,8 +233,8 @@ object Form1: TForm1
       object butHeapInfo: TButton
         Left = 35
         Height = 25
-        Top = 82
-        Width = 90
+        Top = 86
+        Width = 110
         BorderSpacing.InnerBorder = 4
         Caption = 'Heap Info'
         OnClick = butHeapInfoClick
@@ -242,8 +243,8 @@ object Form1: TForm1
       object butException: TButton
         Left = 35
         Height = 25
-        Top = 130
-        Width = 90
+        Top = 135
+        Width = 110
         BorderSpacing.InnerBorder = 4
         Caption = 'Exception'
         OnClick = butExceptionClick
@@ -252,8 +253,8 @@ object Form1: TForm1
       object butObject: TButton
         Left = 35
         Height = 25
-        Top = 178
-        Width = 90
+        Top = 233
+        Width = 110
         BorderSpacing.InnerBorder = 4
         Caption = 'Object'
         OnClick = ObjectClick
@@ -261,32 +262,42 @@ object Form1: TForm1
       end
       object ButSendMemory: TButton
         Left = 35
-        Height = 25
-        Top = 226
-        Width = 90
+        Height = 24
+        Top = 282
+        Width = 110
         BorderSpacing.InnerBorder = 4
         Caption = 'Memory'
         OnClick = ButSendMemoryClick
         TabOrder = 4
       end
+      object butException1: TButton
+        Left = 35
+        Height = 25
+        Top = 184
+        Width = 110
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Exception SQL'
+        OnClick = butException1Click
+        TabOrder = 5
+      end
     end
     object pageWatches: TTabSheet
       Caption = 'Watches/CheckPoints'
-      ClientHeight = 331
-      ClientWidth = 451
+      ClientHeight = 400
+      ClientWidth = 455
       object butWatchInteger: TButton
         Left = 20
         Height = 25
         Top = 43
-        Width = 108
+        Width = 120
         BorderSpacing.InnerBorder = 4
         Caption = 'Watch an Integer'
         OnClick = butWatchIntegerClick
         TabOrder = 0
       end
       object spinWatchInteger: TSpinEdit
-        Left = 132
-        Height = 23
+        Left = 143
+        Height = 27
         Top = 44
         Width = 50
         TabOrder = 1
@@ -295,15 +306,15 @@ object Form1: TForm1
         Left = 20
         Height = 25
         Top = 101
-        Width = 108
+        Width = 120
         BorderSpacing.InnerBorder = 4
         Caption = 'Watch a String'
         OnClick = butWatchStringClick
         TabOrder = 2
       end
       object EditWatchString: TEdit
-        Left = 132
-        Height = 23
+        Left = 143
+        Height = 27
         Top = 102
         Width = 152
         TabOrder = 3
@@ -312,34 +323,34 @@ object Form1: TForm1
         Left = 20
         Height = 25
         Top = 154
-        Width = 178
+        Width = 253
         BorderSpacing.InnerBorder = 4
-        Caption = 'Add a Generic CheckPoint'
+        Caption = 'Add a\some Generic CheckPoints()'
         OnClick = ButGenericCheckPointClick
         TabOrder = 4
       end
       object ButAddNamedCheckPoint: TButton
         Left = 20
         Height = 25
-        Top = 199
-        Width = 178
+        Top = 211
+        Width = 251
         BorderSpacing.InnerBorder = 4
-        Caption = 'Add a Named CheckPoint'
+        Caption = 'Add a\some Named CheckPoint(s)'
         OnClick = ButAddNamedCheckPointClick
         TabOrder = 5
       end
       object EditNamedCheckPoint: TEdit
-        Left = 208
-        Height = 23
-        Top = 200
+        Left = 277
+        Height = 27
+        Top = 211
         Width = 144
         TabOrder = 6
       end
     end
     object PageBitmap: TTabSheet
       Caption = 'Bitmap'
-      ClientHeight = 331
-      ClientWidth = 451
+      ClientHeight = 400
+      ClientWidth = 455
       object Image1: TImage
         Left = 12
         Height = 100
@@ -371,18 +382,16 @@ object Form1: TForm1
   end
   object Splitter1: TSplitter
     Left = 459
-    Height = 359
+    Height = 431
     Top = 0
     Width = 5
   end
   object ShowTimeCheckBox: TCheckBox
-    AnchorSideLeft.Control = LogTreeView1
-    AnchorSideTop.Control = LogTreeView1
     AnchorSideTop.Side = asrBottom
     Left = 464
-    Height = 19
-    Top = 335
-    Width = 79
+    Height = 24
+    Top = 379
+    Width = 98
     Anchors = [akLeft, akBottom]
     Caption = 'Show Time'
     OnChange = ShowTimeCheckBoxChange
@@ -391,9 +400,9 @@ object Form1: TForm1
   object TimeFormatEdit: TEdit
     AnchorSideLeft.Control = ShowTimeCheckBox
     AnchorSideLeft.Side = asrBottom
-    Left = 547
-    Height = 23
-    Top = 332
+    Left = 566
+    Height = 27
+    Top = 377
     Width = 134
     Anchors = [akLeft, akBottom]
     BorderSpacing.Left = 4
@@ -402,50 +411,69 @@ object Form1: TForm1
   end
   object ViewersPageControl: TPageControl
     Left = 464
-    Height = 327
+    Height = 375
     Top = 0
-    Width = 343
+    Width = 449
     ActivePage = TreeTabSheet
-    Align = alClient
+    Align = alCustom
+    Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Bottom = 32
     TabIndex = 0
     TabOrder = 4
     object TreeTabSheet: TTabSheet
       Caption = 'TreeView'
-      ClientHeight = 299
-      ClientWidth = 335
-      object LogTreeView1: TLogTreeView
-        Left = 2
-        Height = 295
-        Top = 2
-        Width = 331
-        Align = alClient
-        BorderSpacing.Around = 2
-        DefaultItemHeight = 18
-        ScrollBars = ssAutoBoth
-        ShowTime = False
-        TabOrder = 0
-        TimeFormat = 'hh:nn:ss:zzz'
-      end
     end
     object MemoTabSheet: TTabSheet
       Caption = 'Memo'
-      ClientHeight = 299
-      ClientWidth = 335
+      ClientHeight = 344
+      ClientWidth = 445
       object LogMemo: TMemo
         Left = 2
-        Height = 295
+        Height = 340
         Top = 2
-        Width = 331
+        Width = 441
         Align = alClient
         BorderSpacing.Around = 2
         TabOrder = 0
       end
     end
   end
+  object chkShowWhy: TCheckBox
+    AnchorSideTop.Side = asrBottom
+    Left = 464
+    Height = 24
+    Top = 407
+    Width = 190
+    Anchors = [akLeft, akBottom]
+    Caption = 'Show "Why", this logging'
+    OnChange = chkShowWhyChange
+    TabOrder = 5
+  end
+  object chkShowPrefix: TCheckBox
+    AnchorSideTop.Side = asrBottom
+    Left = 765
+    Height = 24
+    Top = 407
+    Width = 105
+    Anchors = [akLeft, akBottom]
+    Caption = 'Show prefix'
+    OnChange = chkShowPrefixChange
+    TabOrder = 6
+  end
   object OpenDialog1: TOpenDialog
     FilterIndex = 0
-    left = 40
-    top = 208
+    left = 325
+    top = 294
+  end
+  object SQLQuery1: TSQLQuery
+    FieldDefs = <>
+    InsertSQL.Strings = (
+      ' INSERT INTO tblCECI(un, deux, trois)'
+      ' VALUES (1,2,3)'
+      ''
+    )
+    Params = <>
+    left = 318
+    top = 94
   end
 end
