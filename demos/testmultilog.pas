@@ -6,7 +6,7 @@ program testmultilog;
 
 uses
   Classes, SysUtils,
-  filechannel, ipcchannel, sharedlogger;
+  filechannel, ipcchannel, MultiLog;
 
 type
 
