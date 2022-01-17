@@ -29,7 +29,7 @@ type
   end;
   PLogMsgData = ^TLogMsgData;
 
-  TMemoChannelOption = (fcoShowHeader, fcoShowPrefix, fcoShowTime, fcoUnlimitedBuffer, fcoRotaryBuffer);
+  TMemoChannelOption = (mcoShowHeader, mcoShowPrefix, mcoShowTime, mcoUnlimitedBuffer, mcoRotateBuffer);
   TMemoChannelOptions = set of TMemoChannelOption;
 
 
@@ -44,7 +44,7 @@ type
     FShowTime: Boolean;
     FShowPrefix: Boolean;
     FUnlimitedBuffer: Boolean;
-    FRotaryBuffer: Boolean;
+    FRotateBuffer: Boolean;
     FTimeFormat: String;
     FLogLinesLimit: Integer;
     FWrapper: TLogChannelWrapper;
@@ -55,8 +55,7 @@ type
     procedure WriteStrings(AStream: TStream);
     procedure WriteComponent(AStream: TStream);
   public
-    constructor Create(AMemo: TMemo; AChannelOptions: TMemoChannelOptions = [fcoShowHeader, fcoShowTime]
-      );
+    constructor Create(AMemo: TMemo; AChannelOptions: TMemoChannelOptions = [mcoShowHeader, mcoShowTime]);
     destructor Destroy; override;
     procedure WriteAsyncQueue(Data: PtrInt);
     procedure Deliver(const AMsg: TLogMessage); override;
@@ -100,11 +99,11 @@ begin
   FWrapper := TLogChannelWrapper.Create(nil);
   FWrapper.Channel := Self;
   AMemo.FreeNotification(FWrapper);
-  FShowPrefix := fcoShowPrefix in AChannelOptions;
-  FShowTime := fcoShowTime in AChannelOptions;
-  FShowHeader := fcoShowHeader in AChannelOptions;
-  FUnlimitedBuffer := fcoUnlimitedBuffer in AChannelOptions;
-  FRotaryBuffer := fcoRotaryBuffer in AChannelOptions;
+  FShowPrefix := mcoShowPrefix in AChannelOptions;
+  FShowTime := mcoShowTime in AChannelOptions;
+  FShowHeader := mcoShowHeader in AChannelOptions;
+  FUnlimitedBuffer := mcoUnlimitedBuffer in AChannelOptions;
+  FRotateBuffer := mcoRotateBuffer in AChannelOptions;
   Active := True;
   FLogLinesLimit := MEMO_MINIMAL_NUMBER_OF_TOTAL_LINES;
   FTimeFormat := 'hh:nn:ss:zzz';
@@ -136,7 +135,7 @@ begin
     begin
       if FMemo.Lines.Count > LogLinesLimit then
       begin
-        if FRotaryBuffer then
+        if FRotateBuffer then
         begin
           FMemo.Lines.BeginUpdate;
           try // less flickering compared to deleting first line for each newly added line
@@ -241,7 +240,7 @@ procedure TMemoChannel.Init;
 var
   BufferLimitedStr: string;
 begin
-  if FRotaryBuffer or not FUnlimitedBuffer then
+  if FRotateBuffer or not FUnlimitedBuffer then
     BufferLimitedStr := ' (buffer limited to ' + IntToStr(LogLinesLimit) + ' lines)'
   else
     BufferLimitedStr := '';
