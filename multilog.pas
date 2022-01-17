@@ -3,7 +3,7 @@ unit MultiLog;
 {
   Main unit of the Multilog logging system
 
-  Copyright (C) 2006 Luiz Américo Pereira Câmara
+  Copyright (C) 2022 Luiz Américo Pereira Câmara
   pascalive@bol.com.br
 
   This library is free software; you can redistribute it and/or modify it
@@ -135,14 +135,12 @@ type
     FCounterList: TStringList;
     FOnCustomData: TCustomDataNotify;
     FLastActiveClasses: TDebugClasses;
-    FThreadSafe: Boolean;
     class var FDefaultChannels: TChannelList;
     procedure GetCallStack(AStream:TStream);
     procedure SetEnabled(AValue: Boolean);
     class function GetDefaultChannels: TChannelList; static;
     function GetEnabled: Boolean;
     procedure SetMaxStackCount(const AValue: Integer);
-    procedure SetThreadSafe(AValue: Boolean);
   protected
     procedure SendStream(AMsgType: Integer;const AText:String; AStream: TStream);
     procedure SendBuffer(AMsgType: Integer;const AText:String;
@@ -258,7 +256,6 @@ type
     property LogStack: TStrings read FLogStack;
     property MaxStackCount: Integer read FMaxStackCount write SetMaxStackCount;
     property OnCustomData: TCustomDataNotify read FOnCustomData write FOnCustomData;
-    property ThreadSafe: Boolean read FThreadSafe write SetThreadSafe;
   end;
 
  { TLogChannelWrapper }
@@ -408,12 +405,16 @@ begin
     MsgText := AText;
     Data := AStream;
   end;
-  if FThreadSafe then
+  if IsMultiThread then
+  begin
+    if not Assigned(Guardian) then
+      Guardian := TGuardian.Create;
     Guardian.Enter;
+  end;
   if FDefaultChannels <> nil then
     DispatchLogMessage(FDefaultChannels, Msg);
   DispatchLogMessage(Channels, Msg);
-  if FThreadSafe then
+  if IsMultiThread then
     Guardian.Leave;
   AStream.Free;
 end;
@@ -439,13 +440,6 @@ begin
     FMaxStackCount := AValue
   else
     FMaxStackCount := 256;
-end;
-
-procedure TLogger.SetThreadSafe(AValue: Boolean);
-begin
-  FThreadSafe := AValue;
-  if AValue and not Assigned(Guardian) then
-    Guardian := TGuardian.Create;
 end;
 
 constructor TLogger.Create;
