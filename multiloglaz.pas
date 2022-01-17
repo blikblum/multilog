@@ -8,8 +8,7 @@ unit multiloglaz;
 interface
 
 uses
-  MultiLog, registermultilog, LogTreeView, LCLLogger, FileChannel, IPCChannel, MultiLogLCLHelpers, 
-  OutputChannel, MemoChannel, LazarusPackageIntf;
+  MultiLog, registermultilog, LogTreeView, LCLLogger, FileChannel, IPCChannel, MultiLogLCLHelpers, MemoChannel, LazarusPackageIntf;
 
 implementation
 
