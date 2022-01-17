@@ -20,7 +20,7 @@
 "/>
     <License Value="Modified LGPL
 "/>
-    <Version Minor="6"/>
+    <Version Minor="7"/>
     <Files Count="8">
       <Item1>
         <Filename Value="multilog.pas"/>
