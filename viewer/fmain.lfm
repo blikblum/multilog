@@ -194,10 +194,6 @@ object frmMain: TfrmMain
             Font.Name = 'Courier New'
             ParentColor = False
             TabOrder = 0
-            FontOEM.CharSet = OEM_CHARSET
-            FontOEM.Color = clWindowText
-            FontOEM.Height = -12
-            FontOEM.Name = 'Terminal'
             FontFooter.Color = clBlack
             FontFooter.Height = -12
             FontFooter.Name = 'Arial'
