@@ -271,22 +271,3 @@ end;
 initialization
   {$i logimages.lrs}
 end.
-
-.Parent.Expanded:=True;
-  FLastNode.GetFirstChild;
-  //todo: optimize painting
-  FLastNode.ImageIndex:=AMsg.MsgType;
-  FLastNode.SelectedIndex:=AMsg.MsgType;
-end;
-
-procedure TLogTreeView.Clear;
-begin
-  Items.Clear;
-  FLastNode:=nil;
-  FParentNode:=nil;
-end;
-
-initialization
-  {$i logimages.lrs}
-end.
-
